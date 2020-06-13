@@ -17,11 +17,12 @@ import javax.swing.JOptionPane;
  */
 public class VentanaInicioSesion extends javax.swing.JFrame {
 
-//    private ControladorUsuario controlador = new ControladorUsuario();
-    private Usuario usuario;
+    UsuarioDAOImpl usuarioDao = new UsuarioDAOImpl();
+    TelefonoDAOImpl telefonoDao = new TelefonoDAOImpl();
 
-    private String nombreU = "admin";
-    private String contraU = "1234";
+    private ControladorUsuario controlador = new ControladorUsuario(usuarioDao, telefonoDao);
+    private Usuario usuario;
+    private int conta = 0;
 
     /**
      * Creates new form VentanaInicioSesion
@@ -29,6 +30,32 @@ public class VentanaInicioSesion extends javax.swing.JFrame {
     public VentanaInicioSesion() {
         initComponents();
         setLocation(425, 200);
+    }
+
+    public void crearUsuario() {
+
+        Usuario usu = new Usuario();
+        usu.setNombre("Pocho");
+        usu.setApellido("Lavezzi");
+        usu.setCedula("0102222");
+        usu.setCorreo("admin");
+        usu.setContraseña("1234");
+
+        controlador.crearUsuario(usu);
+        controlador.imprimirUsuarios();
+
+    }
+
+    public Usuario encontrarUsuario(String nombre, String contra) {
+
+        String name = nombre;
+        String password = contra;
+
+        usuario = controlador.iniciarSesion(name, password);
+
+        System.out.println("\n" + usuario);
+
+        return usuario;
     }
 
     /**
@@ -165,27 +192,40 @@ public class VentanaInicioSesion extends javax.swing.JFrame {
 
     private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
 
+        if (conta == 0) {
+            this.crearUsuario();
+            conta++;
+        }
         String nombre = txtNombre.getText();
         char[] contra = txtContrasena.getPassword();
         String password = String.valueOf(contra);
+        System.out.println("\n" + nombre + "\t" + password);
 
         if (nombre.isEmpty() || password.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Llene todos los requisitos!");
         } else {
-//            usuario = controlador.iniciarSesion(nombre, password);
+            usuario = controlador.iniciarSesion(nombre, password);
         }
         if (usuario == null) {
             JOptionPane.showMessageDialog(this, "Datos incorrectos! Intentelo otra vez");
+        } else {
+            JOptionPane.showMessageDialog(this, "Siuuuuuu");
+
         }
 
 
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
 
+    /**
+     * metodo btnSalirActionPerformed
+     *
+     * para salir de la app.
+     *
+     * @param evt
+     */
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         // TODO add your handling code here:
         System.exit(0);
-
-
     }//GEN-LAST:event_btnSalirActionPerformed
 
     /**
@@ -219,9 +259,10 @@ public class VentanaInicioSesion extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new VentanaInicioSesion().setVisible(true);
+
             }
         });
-
+        /*
         UsuarioDAOImpl usuarioDao = new UsuarioDAOImpl();
         TelefonoDAOImpl telefonoDao = new TelefonoDAOImpl();
 
@@ -236,9 +277,11 @@ public class VentanaInicioSesion extends javax.swing.JFrame {
 
         contro.crearUsuario(usu);
         
-        contro.imprimirUsuario(usu);
+        contro.imprimirUsuarios();
+        usu = contro.iniciarSesion("admin", "1234");
         
-
+        contro.imprimirUsuario(usu);
+         */
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
