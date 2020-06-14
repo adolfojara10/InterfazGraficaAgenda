@@ -8,6 +8,7 @@ package ec.ups.edu.vista;
 import ec.ups.edu.controlador.ControladorUsuario;
 import ec.ups.edu.dao.TelefonoDAOImpl;
 import ec.ups.edu.dao.UsuarioDAOImpl;
+import ec.ups.edu.modelo.Telefono;
 import ec.ups.edu.modelo.Usuario;
 import javax.swing.JOptionPane;
 
@@ -23,6 +24,8 @@ public class VentanaInicioSesion extends javax.swing.JFrame {
     private ControladorUsuario controlador = new ControladorUsuario(usuarioDao, telefonoDao);
     private Usuario usuario;
     private int conta = 0;
+    private VentanaTelefono ventana;
+    private Telefono telefono;
 
     /**
      * Creates new form VentanaInicioSesion
@@ -56,6 +59,16 @@ public class VentanaInicioSesion extends javax.swing.JFrame {
         System.out.println("\n" + usuario);
 
         return usuario;
+    }
+
+    public void agregarTelefono() {
+     /*   String nombre = txtNombre.getText();
+        char[] contra = txtContrasena.getPassword();
+        String password = String.valueOf(contra);
+        telefono = ventana.crearTelefono();
+        usuario = this.encontrarUsuario(nombre, password);
+        
+        controlador.crearTelefono(usuario, telefono);*/
     }
 
     /**
@@ -209,8 +222,12 @@ public class VentanaInicioSesion extends javax.swing.JFrame {
         if (usuario == null) {
             JOptionPane.showMessageDialog(this, "Datos incorrectos! Intentelo otra vez");
         } else {
-            JOptionPane.showMessageDialog(this, "Siuuuuuu");
-
+            //JOptionPane.showMessageDialog(this, "Siuuuuuu");
+            if (ventana == null) {
+                ventana = new VentanaTelefono(usuario);
+                //ventana.crearTelefono(usuario);
+            }
+            ventana.setVisible(true);
         }
 
 
@@ -294,4 +311,5 @@ public class VentanaInicioSesion extends javax.swing.JFrame {
     private javax.swing.JPasswordField txtContrasena;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
+
 }
