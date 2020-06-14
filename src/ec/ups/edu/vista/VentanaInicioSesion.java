@@ -61,15 +61,6 @@ public class VentanaInicioSesion extends javax.swing.JFrame {
         return usuario;
     }
 
-    public void agregarTelefono() {
-     /*   String nombre = txtNombre.getText();
-        char[] contra = txtContrasena.getPassword();
-        String password = String.valueOf(contra);
-        telefono = ventana.crearTelefono();
-        usuario = this.encontrarUsuario(nombre, password);
-        
-        controlador.crearTelefono(usuario, telefono);*/
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.

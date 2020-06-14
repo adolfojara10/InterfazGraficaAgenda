@@ -11,6 +11,8 @@ import ec.ups.edu.dao.TelefonoDAOImpl;
 import ec.ups.edu.dao.UsuarioDAOImpl;
 import ec.ups.edu.modelo.Telefono;
 import ec.ups.edu.modelo.Usuario;
+import java.util.List;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 /**
@@ -27,6 +29,7 @@ public class VentanaTelefono extends javax.swing.JFrame {
     private Usuario usuario;
 
     private ControladorTelefono contro = new ControladorTelefono(telefonoDao);
+    private VentanaListarTelefonos ventanaListar;
 
     // private VentanaInicioSesion venta = new VentanaInicioSesion();
     /**
@@ -49,7 +52,7 @@ public class VentanaTelefono extends javax.swing.JFrame {
         telefono = contro.encontrarTelefono(codigo2);
 
         controlador.crearTelefono(usuario, telefono);
-        
+
         JOptionPane.showMessageDialog(this, "Teléfono creado exitosamente");
     }
 
@@ -189,6 +192,11 @@ public class VentanaTelefono extends javax.swing.JFrame {
 
         btnListar.setBackground(new java.awt.Color(153, 153, 255));
         btnListar.setText("Listar Teléfonos");
+        btnListar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnListarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelBotonLayout = new javax.swing.GroupLayout(panelBoton);
         panelBoton.setLayout(panelBotonLayout);
@@ -256,19 +264,35 @@ public class VentanaTelefono extends javax.swing.JFrame {
             System.out.println("\nhhh" + usuario);
             this.telefono();
             this.crearTelefono(usuario);
-            
+
             System.out.println("\n" + usuario);
-            /* VentanaInicioSesion ven = new VentanaInicioSesion();           
-            ven.agregarTelefono();
-            
-            controlador.crearTelefono(telefono);
-            
-            controlador.iniciarSesion(codigo, operadora)
-            controlador.imprimirTelefonos();*/
+
         }
 
 
     }//GEN-LAST:event_btnCrearActionPerformed
+
+    private void btnListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarActionPerformed
+        // TODO add your handling code here:
+
+        List<Telefono> telefonos = usuario.getListaTelefonos();
+        String[] telefo= new String[telefonos.size()];
+        for(int i=0;i<telefonos.size();i++){
+            Telefono tel = telefonos.get(i);
+            if(tel!=null){
+                telefo[i] = tel.toString();
+            }
+        }
+        System.out.println("lista\n " + telefonos);
+        
+        if (ventanaListar == null) {
+
+            ventanaListar = new VentanaListarTelefonos(telefo);
+        }
+        ventanaListar.setVisible(true);
+
+
+    }//GEN-LAST:event_btnListarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
