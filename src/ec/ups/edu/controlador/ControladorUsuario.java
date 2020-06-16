@@ -25,33 +25,38 @@ public class ControladorUsuario {
 
     //private VistaTelefono vistaT;
     //objetos modelo
-    private Usuario cliente;
+    private Usuario usuario;
     private Telefono tele;
     //objetos DAO
-    private IUsuarioDAO clienteDAO;
+    private IUsuarioDAO usuarioDAO;
     private ITelefonoDAO telefonoDAO;
 
     public ControladorUsuario(UsuarioDAOImpl clienteDAO, TelefonoDAOImpl direccionDAO) {
         //   this.vista = vistaCliente;
-        this.clienteDAO = clienteDAO;
+        this.usuarioDAO = clienteDAO;
 
         // this.vistaT = vistaDireccion;
         this.telefonoDAO = direccionDAO;
 
     }
 
-    public void crearUsuario(Usuario usuario) {
-        //  clienteDAO.create(new Usuario("123131", "pocho", "lavezzi", "admin", "1234"));
-        clienteDAO.create(usuario);
+    public void crearUsuario(String nombre, String apellido, String cedula, String correo,
+            String password) {
+        
+        usuario = new Usuario(cedula, nombre, apellido, correo, password);
+        usuarioDAO.create(usuario);
     }
 
-    public Usuario iniciarSesion(String correo, String contrasena) {
+    public boolean iniciarSesion(String correo, String password) {
 
         //se obtienen los datos de contraseÃ±a y correo
         //se envian los datos y se recibe una persona
-        cliente = clienteDAO.iniciarSesion(correo, contrasena);
-
-        return cliente;
+        usuario = usuarioDAO.iniciarSesion(correo, password);
+        if (usuario == null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public void imprimirTelefonos() {
@@ -69,7 +74,7 @@ public class ControladorUsuario {
 
     public void imprimirUsuarios() {
         Map<String, Usuario> usuarios;
-        usuarios = clienteDAO.findAll();
+        usuarios = usuarioDAO.findAll();
 
         for (Map.Entry<String, Usuario> usu : usuarios.entrySet()) {
             System.out.println("uuu\n" + usu.toString());
@@ -79,7 +84,7 @@ public class ControladorUsuario {
     public void crearTelefono(Usuario usuario, Telefono telefono) {
         telefonoDAO.create(telefono);
         usuario.agregarTelefono(telefono);
-        clienteDAO.update(usuario);
+        usuarioDAO.update(usuario);
     }
 
 }

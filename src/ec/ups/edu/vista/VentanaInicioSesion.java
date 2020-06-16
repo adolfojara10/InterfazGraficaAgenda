@@ -6,9 +6,6 @@
 package ec.ups.edu.vista;
 
 import ec.ups.edu.controlador.ControladorUsuario;
-import ec.ups.edu.dao.TelefonoDAOImpl;
-import ec.ups.edu.dao.UsuarioDAOImpl;
-import ec.ups.edu.modelo.Telefono;
 import ec.ups.edu.modelo.Usuario;
 import javax.swing.JOptionPane;
 
@@ -16,51 +13,20 @@ import javax.swing.JOptionPane;
  *
  * @author Adolfo
  */
-public class VentanaInicioSesion extends javax.swing.JFrame {
+public class VentanaInicioSesion extends javax.swing.JInternalFrame {
 
-    UsuarioDAOImpl usuarioDao = new UsuarioDAOImpl();
-    TelefonoDAOImpl telefonoDao = new TelefonoDAOImpl();
-
-    private ControladorUsuario controlador = new ControladorUsuario(usuarioDao, telefonoDao);
-    private Usuario usuario;
-    private int conta = 0;
-    private VentanaTelefono ventana;
-    private Telefono telefono;
+    private ControladorUsuario controladorU;
+    private VentanaPrincipal ventanaPrincipal;
 
     /**
-     * Creates new form VentanaInicioSesion
+     * Creates new form VentanaIncioSesion
      */
-    public VentanaInicioSesion() {
+    public VentanaInicioSesion(ControladorUsuario controladorU, VentanaPrincipal ventanaPrincipal) {
         initComponents();
-        setLocation(425, 200);
-    }
-
-    public void crearUsuario() {
-
-        Usuario usu = new Usuario();
-        usu.setNombre("Pocho");
-        usu.setApellido("Lavezzi");
-        usu.setCedula("0102222");
-        usu.setCorreo("admin");
-        usu.setContraseña("1234");
-
-        controlador.crearUsuario(usu);
-        controlador.imprimirUsuarios();
+        this.ventanaPrincipal = ventanaPrincipal;
+        this.controladorU = controladorU;
 
     }
-
-    public Usuario encontrarUsuario(String nombre, String contra) {
-
-        String name = nombre;
-        String password = contra;
-
-        usuario = controlador.iniciarSesion(name, password);
-
-        System.out.println("\n" + usuario);
-
-        return usuario;
-    }
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -71,236 +37,143 @@ public class VentanaInicioSesion extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        panelPrincipal = new javax.swing.JPanel();
-        nombre = new javax.swing.JLabel();
-        contrasena = new javax.swing.JLabel();
-        txtNombre = new javax.swing.JTextField();
-        txtContrasena = new javax.swing.JPasswordField();
-        panelBotones = new javax.swing.JPanel();
-        btnSalir = new javax.swing.JButton();
-        btnIniciarSesion = new javax.swing.JButton();
+        correo = new javax.swing.JLabel();
+        btnInciarSesion = new javax.swing.JButton();
+        btnAtras = new javax.swing.JButton();
+        password = new javax.swing.JLabel();
+        txtPassword = new javax.swing.JPasswordField();
+        txtCorreo = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMaximizable(true);
+        setResizable(true);
         setTitle("Iniciar Sesión");
-        setBackground(new java.awt.Color(51, 51, 51));
 
-        panelPrincipal.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Iniciar Sesión", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Book Antiqua", 0, 14))); // NOI18N
+        correo.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        correo.setText("Correo electrónico");
 
-        nombre.setBackground(new java.awt.Color(139, 148, 155));
-        nombre.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        nombre.setText("Nombre de usuario");
-        nombre.setToolTipText("");
-
-        contrasena.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        contrasena.setText("Contraseña");
-        contrasena.setToolTipText("");
-
-        txtNombre.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        txtNombre.setText("ej: luchito123");
-
-        txtContrasena.setText("1234");
-
-        javax.swing.GroupLayout panelPrincipalLayout = new javax.swing.GroupLayout(panelPrincipal);
-        panelPrincipal.setLayout(panelPrincipalLayout);
-        panelPrincipalLayout.setHorizontalGroup(
-            panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelPrincipalLayout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(nombre)
-                    .addComponent(contrasena))
-                .addGap(96, 96, 96)
-                .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtNombre)
-                    .addComponent(txtContrasena))
-                .addContainerGap(18, Short.MAX_VALUE))
-        );
-        panelPrincipalLayout.setVerticalGroup(
-            panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelPrincipalLayout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nombre)
-                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(contrasena)
-                    .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(24, Short.MAX_VALUE))
-        );
-
-        btnSalir.setBackground(new java.awt.Color(204, 0, 0));
-        btnSalir.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        btnSalir.setForeground(new java.awt.Color(0, 0, 0));
-        btnSalir.setText("Salir");
-        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+        btnInciarSesion.setBackground(new java.awt.Color(153, 153, 255));
+        btnInciarSesion.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        btnInciarSesion.setText("Iniciar Sesión");
+        btnInciarSesion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalirActionPerformed(evt);
+                btnInciarSesionActionPerformed(evt);
             }
         });
 
-        btnIniciarSesion.setBackground(new java.awt.Color(153, 153, 255));
-        btnIniciarSesion.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        btnIniciarSesion.setForeground(new java.awt.Color(0, 0, 0));
-        btnIniciarSesion.setText("Iniciar Sesión");
-        btnIniciarSesion.addActionListener(new java.awt.event.ActionListener() {
+        btnAtras.setBackground(new java.awt.Color(255, 0, 0));
+        btnAtras.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        btnAtras.setText("Atrás");
+        btnAtras.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnIniciarSesionActionPerformed(evt);
+                btnAtrasActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout panelBotonesLayout = new javax.swing.GroupLayout(panelBotones);
-        panelBotones.setLayout(panelBotonesLayout);
-        panelBotonesLayout.setHorizontalGroup(
-            panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBotonesLayout.createSequentialGroup()
-                .addGap(43, 43, 43)
-                .addComponent(btnIniciarSesion)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnSalir)
-                .addGap(46, 46, 46))
-        );
-        panelBotonesLayout.setVerticalGroup(
-            panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelBotonesLayout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addGroup(panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSalir)
-                    .addComponent(btnIniciarSesion))
-                .addContainerGap(19, Short.MAX_VALUE))
-        );
+        password.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        password.setText("Contraseña");
+
+        txtPassword.setText("jPasswordField1");
+
+        txtCorreo.setText("ejemplo@hotmail.com");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(panelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelBotones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(44, 44, 44)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(password)
+                            .addComponent(correo))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnInciarSesion)
+                        .addGap(23, 23, 23)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(46, 46, 46))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnAtras)
+                        .addGap(88, 88, 88))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(17, Short.MAX_VALUE)
-                .addComponent(panelPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelBotones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(correo)
+                    .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(22, 22, 22)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(password)
+                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(35, 35, 35)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnInciarSesion)
+                    .addComponent(btnAtras))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
-
-        if (conta == 0) {
-            this.crearUsuario();
-            conta++;
-        }
-        String nombre = txtNombre.getText();
-        char[] contra = txtContrasena.getPassword();
-        String password = String.valueOf(contra);
-        System.out.println("\n" + nombre + "\t" + password);
-
-        if (nombre.isEmpty() || password.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Llene todos los requisitos!");
-        } else {
-            usuario = controlador.iniciarSesion(nombre, password);
-        }
-        if (usuario == null) {
-            JOptionPane.showMessageDialog(this, "Datos incorrectos! Intentelo otra vez");
-        } else {
-            //JOptionPane.showMessageDialog(this, "Siuuuuuu");
-            if (ventana == null) {
-                ventana = new VentanaTelefono(usuario);
-                //ventana.crearTelefono(usuario);
-            }
-            ventana.setVisible(true);
-        }
-
-
-    }//GEN-LAST:event_btnIniciarSesionActionPerformed
-
-    /**
-     * metodo btnSalirActionPerformed
-     *
-     * para salir de la app.
-     *
-     * @param evt
-     */
-    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+    private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
         // TODO add your handling code here:
-        System.exit(0);
-    }//GEN-LAST:event_btnSalirActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+        this.dispose();
+
+    }//GEN-LAST:event_btnAtrasActionPerformed
+
+    private void btnInciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInciarSesionActionPerformed
+        // TODO add your handling code here:
+        String correo = txtCorreo.getText();
+        char[] contra = txtPassword.getPassword();
+        String password = String.valueOf(contra);
+
+        if (correo.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Llene todos los campos solicitados");
+        } else {
+            boolean verdad = controladorU.iniciarSesion(correo, password);
+
+            if (verdad) {
+                JOptionPane.showMessageDialog(this, "Siuuuuu");
+
+                this.dispose();
+                activarMenus();
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Usuario no encontrado. Intentelo otra vez");
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VentanaInicioSesion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VentanaInicioSesion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VentanaInicioSesion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VentanaInicioSesion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>     
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new VentanaInicioSesion().setVisible(true);
+    }//GEN-LAST:event_btnInciarSesionActionPerformed
 
-            }
-        });
-        /*
-        UsuarioDAOImpl usuarioDao = new UsuarioDAOImpl();
-        TelefonoDAOImpl telefonoDao = new TelefonoDAOImpl();
+    public void activarMenus() {
+        ventanaPrincipal.getCerrarSesionMenuItem().setVisible(true);
+        ventanaPrincipal.getGestiónMenu().setVisible(true);
 
-        ControladorUsuario contro = new ControladorUsuario(usuarioDao, telefonoDao);
-
-        Usuario usu = new Usuario();
-        usu.setNombre("Pocho");
-        usu.setApellido("Lavezzi");
-        usu.setCedula("0102222");
-        usu.setCorreo("admin");
-        usu.setContraseña("1234");
-
-        contro.crearUsuario(usu);
-        
-        contro.imprimirUsuarios();
-        usu = contro.iniciarSesion("admin", "1234");
-        
-        contro.imprimirUsuario(usu);
-         */
+        ventanaPrincipal.getRegistrarUsuarioMenuItem().setVisible(false);
+        ventanaPrincipal.getIniciarSesionMenuItem().setVisible(false);
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnIniciarSesion;
-    private javax.swing.JButton btnSalir;
-    private javax.swing.JLabel contrasena;
-    private javax.swing.JLabel nombre;
-    private javax.swing.JPanel panelBotones;
-    private javax.swing.JPanel panelPrincipal;
-    private javax.swing.JPasswordField txtContrasena;
-    private javax.swing.JTextField txtNombre;
-    // End of variables declaration//GEN-END:variables
+    public void limpiar() {
+        txtCorreo.setText("");
+        txtPassword.setText("");
+    }
 
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAtras;
+    private javax.swing.JButton btnInciarSesion;
+    private javax.swing.JLabel correo;
+    private javax.swing.JLabel password;
+    private javax.swing.JTextField txtCorreo;
+    private javax.swing.JPasswordField txtPassword;
+    // End of variables declaration//GEN-END:variables
 }
