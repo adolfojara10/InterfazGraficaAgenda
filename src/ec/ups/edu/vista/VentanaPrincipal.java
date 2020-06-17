@@ -20,10 +20,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     private UsuarioDAOImpl usuarioDao;
     private TelefonoDAOImpl telefonoDao;
-    private ControladorUsuario controlador;
+    private ControladorUsuario controladorU;
 
     private VentanaInicioSesion ventanaInicioSesion;
     private VentanaRegistrarUsuario ventanaRegistrarUsuario;
+    private VentanaGestionTelefonos ventanaGestionTelefonos;
 
     /**
      * Creates new form VentanaPrincipal
@@ -36,10 +37,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         telefonoDao = new TelefonoDAOImpl();
         usuarioDao = new UsuarioDAOImpl();
-        controlador = new ControladorUsuario(usuarioDao, telefonoDao);
+        controladorU = new ControladorUsuario(usuarioDao, telefonoDao);
 
-        ventanaInicioSesion = new VentanaInicioSesion(controlador, this);
-        ventanaRegistrarUsuario = new VentanaRegistrarUsuario(controlador);
+        ventanaInicioSesion = new VentanaInicioSesion(controladorU, this);
+        ventanaRegistrarUsuario = new VentanaRegistrarUsuario(controladorU);
+        ventanaGestionTelefonos = new VentanaGestionTelefonos(controladorU);
+
     }
 
     public JMenuItem getCerrarSesionMenuItem() {
@@ -81,6 +84,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Inicio");
+        setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
+        getContentPane().add(desktopPane, java.awt.BorderLayout.CENTER);
 
         menuBar.setBackground(new java.awt.Color(102, 102, 102));
         menuBar.setForeground(new java.awt.Color(255, 255, 255));
@@ -137,6 +142,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         gestiónMenu.setText("Gestión");
 
         gestionTelefonosMenuItem.setText("Teléfonos");
+        gestionTelefonosMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gestionTelefonosMenuItemActionPerformed(evt);
+            }
+        });
         gestiónMenu.add(gestionTelefonosMenuItem);
 
         gestionUsuarioMenuItem.setText("Usuario");
@@ -145,17 +155,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         menuBar.add(gestiónMenu);
 
         setJMenuBar(menuBar);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 435, Short.MAX_VALUE)
-        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -181,15 +180,23 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     private void cerrarSesionMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cerrarSesionMenuItemActionPerformed
         // TODO add your handling code here:
-        
+
         JOptionPane.showMessageDialog(this, "Usted ha cerrado sesión");
-        
+
         gestiónMenu.setVisible(false);
         cerrarSesionMenuItem.setVisible(false);
 
         registrarUsuarioMenuItem.setVisible(true);
         iniciarSesionMenuItem.setVisible(true);
     }//GEN-LAST:event_cerrarSesionMenuItemActionPerformed
+
+    private void gestionTelefonosMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gestionTelefonosMenuItemActionPerformed
+        // TODO add your handling code here:
+
+        desktopPane.add(ventanaGestionTelefonos);
+        ventanaGestionTelefonos.setVisible(true);
+
+    }//GEN-LAST:event_gestionTelefonosMenuItemActionPerformed
 
     /**
      * @param args the command line arguments

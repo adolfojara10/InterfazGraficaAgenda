@@ -142,8 +142,8 @@ public class VentanaInicioSesion extends javax.swing.JInternalFrame {
             boolean verdad = controladorU.iniciarSesion(correo, password);
 
             if (verdad) {
-                JOptionPane.showMessageDialog(this, "Siuuuuu");
-
+                JOptionPane.showMessageDialog(this, "¡Sesion iniciada con exito!");
+                limpiar();
                 this.dispose();
                 activarMenus();
 
