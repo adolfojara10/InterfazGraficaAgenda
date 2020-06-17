@@ -26,7 +26,7 @@ public class ControladorUsuario {
     //private VistaTelefono vistaT;
     //objetos modelo
     private Usuario usuario;
-    private Telefono tele;
+    private Telefono telefono;
     //objetos DAO
     private IUsuarioDAO usuarioDAO;
     private ITelefonoDAO telefonoDAO;
@@ -42,7 +42,7 @@ public class ControladorUsuario {
 
     public void crearUsuario(String nombre, String apellido, String cedula, String correo,
             String password) {
-        
+
         usuario = new Usuario(cedula, nombre, apellido, correo, password);
         usuarioDAO.create(usuario);
     }
@@ -81,10 +81,35 @@ public class ControladorUsuario {
         }
     }
 
-    public void crearTelefono(Usuario usuario, Telefono telefono) {
+    public void agregarTelefono(String numero, String tipo, String operadora, int codigo) {
+
+        telefono = new Telefono(codigo, numero, tipo, operadora);
         telefonoDAO.create(telefono);
         usuario.agregarTelefono(telefono);
         usuarioDAO.update(usuario);
+        System.out.println(usuario);
     }
+
+    public boolean actualizarTelefono(String numero, String tipo, String operadora, int codigo) {
+
+        telefono = telefonoDAO.read(codigo);
+        if (telefono == null) {
+            return false;
+        } else {
+            telefono.setCodigo(codigo);
+            telefono.setNumero(numero);
+            telefono.setOperadora(operadora);
+            telefono.setTipo(tipo);
+
+            telefonoDAO.update(telefono);
+            usuario.actualizarTelefono(telefono);
+            usuarioDAO.update(usuario);
+            System.out.println(usuario);
+            return true;
+        }
+
+    }
+    
+    
 
 }

@@ -85,6 +85,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Inicio");
         setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
+        setSize(new java.awt.Dimension(0, 0));
         getContentPane().add(desktopPane, java.awt.BorderLayout.CENTER);
 
         menuBar.setBackground(new java.awt.Color(102, 102, 102));
@@ -166,6 +167,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void iniciarSesionMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iniciarSesionMenuItemActionPerformed
         // TODO add your handling code here:
 
+        if (ventanaRegistrarUsuario.isEnabled()) {
+            ventanaRegistrarUsuario.dispose();
+        }
         desktopPane.add(ventanaInicioSesion);
         ventanaInicioSesion.setVisible(true);
 
@@ -174,6 +178,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void registrarUsuarioMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registrarUsuarioMenuItemActionPerformed
         // TODO add your handling code here:
 
+        if (ventanaInicioSesion.isEnabled()) {
+            ventanaInicioSesion.dispose();
+        }
         desktopPane.add(ventanaRegistrarUsuario);
         ventanaRegistrarUsuario.setVisible(true);
     }//GEN-LAST:event_registrarUsuarioMenuItemActionPerformed
@@ -182,6 +189,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         JOptionPane.showMessageDialog(this, "Usted ha cerrado sesión");
+
+        if (ventanaGestionTelefonos.isEnabled()) {
+            ventanaGestionTelefonos.dispose();
+        }
 
         gestiónMenu.setVisible(false);
         cerrarSesionMenuItem.setVisible(false);

@@ -82,13 +82,11 @@ public class UsuarioDAOImpl implements IUsuarioDAO {
             String key = usuario.getKey();
             Usuario valor = usuario.getValue();
             //compara primero el correo
-            if (valor.getCorreo().equals(correo)) {
-                //si el correo es igual, compara la contraseÃ±a
-                if (valor.getContraseña().equals(contraseña)) {
-                    Usuario usu = new Usuario();
-                    usu = listaUsuarios.get(key);
-                    return usu;
-                }
+            if (valor.getCorreo().equals(correo) && valor.getContraseña().equals(contraseña)) {
+                Usuario usu = new Usuario();
+                usu = listaUsuarios.get(key);
+                return usu;
+
             }
         }
 

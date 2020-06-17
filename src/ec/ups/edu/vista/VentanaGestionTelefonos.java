@@ -6,6 +6,7 @@
 package ec.ups.edu.vista;
 
 import ec.ups.edu.controlador.ControladorUsuario;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -14,18 +15,16 @@ import ec.ups.edu.controlador.ControladorUsuario;
 public class VentanaGestionTelefonos extends javax.swing.JInternalFrame {
 
     private ControladorUsuario controladorU;
-    
+
     /**
      * Creates new form VentanaGestionTelefonos
      */
     public VentanaGestionTelefonos(ControladorUsuario controladorU) {
-        
+
         initComponents();
-        
+
         this.controladorU = controladorU;
     }
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -51,7 +50,7 @@ public class VentanaGestionTelefonos extends javax.swing.JInternalFrame {
         jLabel3 = new javax.swing.JLabel();
         txtCodigoEditar = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        txtNuevoNumero = new javax.swing.JTextField();
+        txtNumeroEditar = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         operadoraEditarComboBox1 = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
@@ -66,6 +65,7 @@ public class VentanaGestionTelefonos extends javax.swing.JInternalFrame {
         jLabel9 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableTelefonos = new javax.swing.JTable();
+        btnAtras = new javax.swing.JButton();
 
         setTitle("Gestionar Teléfonos");
 
@@ -86,6 +86,11 @@ public class VentanaGestionTelefonos extends javax.swing.JInternalFrame {
 
         btnCrearTelefono.setBackground(new java.awt.Color(153, 153, 255));
         btnCrearTelefono.setText("Crear Teléfono");
+        btnCrearTelefono.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearTelefonoActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel2.setText("Editar un Teléfono");
@@ -104,6 +109,11 @@ public class VentanaGestionTelefonos extends javax.swing.JInternalFrame {
 
         btnEditar.setBackground(new java.awt.Color(153, 153, 255));
         btnEditar.setText("Editar Teléfono");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         jLabel7.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel7.setText("Buscar Teléfono");
@@ -130,14 +140,18 @@ public class VentanaGestionTelefonos extends javax.swing.JInternalFrame {
         ));
         jScrollPane1.setViewportView(tableTelefonos);
 
+        btnAtras.setBackground(new java.awt.Color(255, 0, 0));
+        btnAtras.setText("Atrás");
+        btnAtras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAtrasActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btnEditar)
-                .addGap(199, 199, 199))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -168,10 +182,6 @@ public class VentanaGestionTelefonos extends javax.swing.JInternalFrame {
                                             .addComponent(codigo)
                                             .addGap(49, 49, 49)
                                             .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addComponent(jSeparator1)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(btnCrearTelefono)
-                                    .addGap(155, 155, 155))
                                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 444, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(layout.createSequentialGroup()
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -190,8 +200,12 @@ public class VentanaGestionTelefonos extends javax.swing.JInternalFrame {
                                                 .addComponent(jLabel6))))
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(txtNuevoNumero)
-                                        .addComponent(tipoEditarComboBox, 0, 117, Short.MAX_VALUE))))
+                                        .addComponent(txtNumeroEditar)
+                                        .addComponent(tipoEditarComboBox, 0, 117, Short.MAX_VALUE)))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addComponent(btnCrearTelefono)
+                                    .addGap(155, 155, 155))
+                                .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 444, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 444, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
@@ -204,6 +218,15 @@ public class VentanaGestionTelefonos extends javax.swing.JInternalFrame {
                         .addGap(200, 200, 200)
                         .addComponent(jLabel9)))
                 .addContainerGap(35, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnEditar)
+                        .addGap(199, 199, 199))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnAtras)
+                        .addGap(227, 227, 227))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -222,18 +245,18 @@ public class VentanaGestionTelefonos extends javax.swing.JInternalFrame {
                     .addComponent(operadoraCrearComboBox)
                     .addComponent(codigo)
                     .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
+                .addGap(18, 18, 18)
                 .addComponent(btnCrearTelefono)
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
-                .addGap(16, 16, 16)
+                .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtCodigoEditar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
-                    .addComponent(txtNuevoNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNumeroEditar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
@@ -257,14 +280,66 @@ public class VentanaGestionTelefonos extends javax.swing.JInternalFrame {
                 .addComponent(jLabel9)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnAtras)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
+        // TODO add your handling code here:
+
+        this.dispose();
+
+    }//GEN-LAST:event_btnAtrasActionPerformed
+
+    private void btnCrearTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearTelefonoActionPerformed
+        // TODO add your handling code here:
+
+        String numeroT = txtNumero.getText();
+        String tipo = (String) tipoCrearComboBox.getSelectedItem();
+        String operadoraT = (String) operadoraCrearComboBox.getSelectedItem();
+        String codigoT = txtCodigo.getText();
+
+        if (numeroT.isEmpty() || tipo.isEmpty() || operadoraT.isEmpty() || codigoT.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "¡Llene todos los requerimientos");
+        } else {
+            int cod = Integer.parseInt(codigoT);
+            controladorU.agregarTelefono(numeroT, tipo, operadoraT, cod);
+            JOptionPane.showMessageDialog(this, "Teléfono creado exitosamente");
+            limpiar();
+        }
+
+    }//GEN-LAST:event_btnCrearTelefonoActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        // TODO add your handling code here:
+        String numeroT = txtNumeroEditar.getText();
+        String tipo = (String) tipoEditarComboBox.getSelectedItem();
+        String operadoraT = (String) operadoraEditarComboBox1.getSelectedItem();
+        String codigoT = txtCodigoEditar.getText();
+        int cod = Integer.parseInt(codigoT);
+
+        if (controladorU.actualizarTelefono(numeroT, tipo, operadoraT, cod)) {
+            JOptionPane.showMessageDialog(this, "¡Teléfono actualizado exitosamente!");
+            limpiar();
+        }
+
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    public void limpiar() {
+        txtCodigo.setText("");
+        txtNumero.setText("");
+        txtCodigoEditar.setText("");
+        txtNumeroEditar.setText("");
+
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAtras;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCrearTelefono;
     private javax.swing.JButton btnEditar;
@@ -293,7 +368,7 @@ public class VentanaGestionTelefonos extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtCodigo;
     private javax.swing.JTextField txtCodigoBuscar;
     private javax.swing.JTextField txtCodigoEditar;
-    private javax.swing.JTextField txtNuevoNumero;
     private javax.swing.JTextField txtNumero;
+    private javax.swing.JTextField txtNumeroEditar;
     // End of variables declaration//GEN-END:variables
 }

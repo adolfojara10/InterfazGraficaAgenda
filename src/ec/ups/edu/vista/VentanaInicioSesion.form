@@ -125,14 +125,8 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JPasswordField" name="txtPassword">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="jPasswordField1"/>
-      </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtCorreo">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="ejemplo@hotmail.com"/>
-      </Properties>
     </Component>
   </SubComponents>
 </Form>

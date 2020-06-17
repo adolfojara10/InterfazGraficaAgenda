@@ -72,10 +72,6 @@ public class VentanaInicioSesion extends javax.swing.JInternalFrame {
         password.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         password.setText("Contraseña");
 
-        txtPassword.setText("jPasswordField1");
-
-        txtCorreo.setText("ejemplo@hotmail.com");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -154,6 +150,7 @@ public class VentanaInicioSesion extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_btnInciarSesionActionPerformed
 
+    
     public void activarMenus() {
         ventanaPrincipal.getCerrarSesionMenuItem().setVisible(true);
         ventanaPrincipal.getGestiónMenu().setVisible(true);
