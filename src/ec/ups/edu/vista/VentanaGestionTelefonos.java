@@ -6,7 +6,12 @@
 package ec.ups.edu.vista;
 
 import ec.ups.edu.controlador.ControladorUsuario;
+import ec.ups.edu.modelo.Telefono;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -15,15 +20,71 @@ import javax.swing.JOptionPane;
 public class VentanaGestionTelefonos extends javax.swing.JInternalFrame {
 
     private ControladorUsuario controladorU;
+    private List<String> operadoras;
 
     /**
      * Creates new form VentanaGestionTelefonos
      */
     public VentanaGestionTelefonos(ControladorUsuario controladorU) {
-
-        initComponents();
-
         this.controladorU = controladorU;
+        initComponents();
+        cargarDatosOperadora();
+
+    }
+
+    public void cargarDatosOperadora() {
+        operadoras = new ArrayList<>();
+        operadoras.add("Movistar");
+        operadoras.add("Claro");
+        operadoras.add("CNT");
+        operadoras.add("Tuenti");
+        operadoras.add("Etapa");
+
+        llenarComboBoxCrear();
+        llenarComboBoxEditar();
+    }
+
+    public void llenarComboBoxCrear() {
+        DefaultComboBoxModel modelo = (DefaultComboBoxModel) operadoraCrearComboBox.getModel();
+        for (String opera : operadoras) {
+            modelo.addElement(opera);
+        }
+    }
+
+    public void llenarComboBoxEditar() {
+        DefaultComboBoxModel modelo = (DefaultComboBoxModel) operadoraEditarComboBox1.getModel();
+        for (String opera : operadoras) {
+            modelo.addElement(opera);
+        }
+    }
+
+    public void llenarTablaTelefonos() {
+
+        DefaultTableModel modelo = (DefaultTableModel) tableTelefonos.getModel();
+
+        for (int i = 0; i < modelo.getRowCount(); i++) {
+            modelo.removeRow(i);
+        }
+
+        for (Telefono telefono : controladorU.listarTelefonos()) {
+            Object[] rowData = {telefono.getCodigo(), telefono.getNumero(),
+                telefono.getTipo(), telefono.getOperadora()};
+            modelo.addRow(rowData);
+        }
+    }
+
+    public void llenarTablaTelefonosEditar() {
+        DefaultTableModel modelo = (DefaultTableModel) tableTelefonos.getModel();
+
+        for (int i = 0; i < modelo.getRowCount(); i++) {
+            modelo.removeRow(i);
+        }
+
+        for (Telefono telefono : controladorU.listarTelefonos()) {
+            Object[] rowData = {telefono.getCodigo(), telefono.getNumero(),
+                telefono.getTipo(), telefono.getOperadora()};
+            modelo.addRow(rowData);
+        }
     }
 
     /**
@@ -37,7 +98,6 @@ public class VentanaGestionTelefonos extends javax.swing.JInternalFrame {
 
         registrar = new javax.swing.JLabel();
         numero = new javax.swing.JLabel();
-        txtNumero = new javax.swing.JTextField();
         operadoraCrearComboBox = new javax.swing.JComboBox<>();
         operadora = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -50,7 +110,6 @@ public class VentanaGestionTelefonos extends javax.swing.JInternalFrame {
         jLabel3 = new javax.swing.JLabel();
         txtCodigoEditar = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        txtNumeroEditar = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         operadoraEditarComboBox1 = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
@@ -70,6 +129,8 @@ public class VentanaGestionTelefonos extends javax.swing.JInternalFrame {
         jLabel11 = new javax.swing.JLabel();
         txtCodigoEliminar = new javax.swing.JTextField();
         btnEliminarTelefono = new javax.swing.JToggleButton();
+        txtNumeroFormateadoCrear = new javax.swing.JFormattedTextField();
+        txtNumeroFormateadoEditar = new javax.swing.JFormattedTextField();
 
         setTitle("Gestionar Teléfonos");
 
@@ -78,15 +139,22 @@ public class VentanaGestionTelefonos extends javax.swing.JInternalFrame {
 
         numero.setText("Número");
 
-        operadoraCrearComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Movistar", "Claro", "CNT", "Tuenti", "Etapa", "Otro" }));
-
         operadora.setText("Operadora");
 
         jLabel1.setText("Tipo");
 
-        tipoCrearComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Celular", "Convencional" }));
+        tipoCrearComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--Seleccione--", "Celular", "Convencional" }));
+        tipoCrearComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tipoCrearComboBoxActionPerformed(evt);
+            }
+        });
 
         codigo.setText("Código");
+
+        txtCodigo.setEditable(false);
+        txtCodigo.setBackground(new java.awt.Color(102, 102, 102));
+        txtCodigo.setText("0");
 
         btnCrearTelefono.setBackground(new java.awt.Color(153, 153, 255));
         btnCrearTelefono.setText("Crear Teléfono");
@@ -105,11 +173,9 @@ public class VentanaGestionTelefonos extends javax.swing.JInternalFrame {
 
         jLabel5.setText("Operadora");
 
-        operadoraEditarComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Movistar", "Claro", "CNT", "Tuenti", "Etapa", "Otro" }));
-
         jLabel6.setText("Tipo");
 
-        tipoEditarComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Celular", "Convencional" }));
+        tipoEditarComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--Seleccione--", "Celular", "Convencional" }));
 
         btnEditar.setBackground(new java.awt.Color(153, 153, 255));
         btnEditar.setText("Editar Teléfono");
@@ -148,7 +214,7 @@ public class VentanaGestionTelefonos extends javax.swing.JInternalFrame {
                 java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, true, true
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -217,10 +283,10 @@ public class VentanaGestionTelefonos extends javax.swing.JInternalFrame {
                                             .addComponent(numero)
                                             .addComponent(operadora))
                                         .addGap(18, 18, 18)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txtNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(operadoraCrearComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(53, 53, 53)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(operadoraCrearComboBox, 0, 118, Short.MAX_VALUE)
+                                            .addComponent(txtNumeroFormateadoCrear))
+                                        .addGap(51, 51, 51)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addGroup(layout.createSequentialGroup()
                                                 .addComponent(jLabel1)
@@ -231,29 +297,29 @@ public class VentanaGestionTelefonos extends javax.swing.JInternalFrame {
                                                 .addGap(49, 49, 49)
                                                 .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                     .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 444, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jLabel2)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jLabel3)
-                                                    .addComponent(jLabel5))
-                                                .addGap(24, 24, 24)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                    .addComponent(operadoraEditarComboBox1, 0, 118, Short.MAX_VALUE)
-                                                    .addComponent(txtCodigoEditar))
-                                                .addGap(36, 36, 36)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jLabel4)
-                                                    .addComponent(jLabel6))))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(txtNumeroEditar)
-                                            .addComponent(tipoEditarComboBox, 0, 117, Short.MAX_VALUE)))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                         .addComponent(btnCrearTelefono)
                                         .addGap(155, 155, 155))
-                                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 444, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 444, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel2)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel3)
+                                            .addComponent(jLabel5))
+                                        .addGap(24, 24, 24)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(operadoraEditarComboBox1, 0, 118, Short.MAX_VALUE)
+                                            .addComponent(txtCodigoEditar))
+                                        .addGap(36, 36, 36)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel4)
+                                            .addComponent(jLabel6))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(tipoEditarComboBox, 0, 117, Short.MAX_VALUE)
+                                    .addComponent(txtNumeroFormateadoEditar)))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(153, 153, 153)
                         .addComponent(registrar))
@@ -284,10 +350,10 @@ public class VentanaGestionTelefonos extends javax.swing.JInternalFrame {
                 .addComponent(registrar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(numero)
                     .addComponent(jLabel1)
-                    .addComponent(tipoCrearComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tipoCrearComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNumeroFormateadoCrear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(operadora, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -305,7 +371,7 @@ public class VentanaGestionTelefonos extends javax.swing.JInternalFrame {
                     .addComponent(jLabel3)
                     .addComponent(txtCodigoEditar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
-                    .addComponent(txtNumeroEditar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNumeroFormateadoEditar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
@@ -354,17 +420,18 @@ public class VentanaGestionTelefonos extends javax.swing.JInternalFrame {
     private void btnCrearTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearTelefonoActionPerformed
         // TODO add your handling code here:
 
-        String numeroT = txtNumero.getText();
+        String numeroT = txtNumeroFormateadoCrear.getText();
         String tipo = (String) tipoCrearComboBox.getSelectedItem();
         String operadoraT = (String) operadoraCrearComboBox.getSelectedItem();
-        String codigoT = txtCodigo.getText();
+        //  String codigoT = txtCodigo.getText();
 
-        if (numeroT.isEmpty() || tipo.isEmpty() || operadoraT.isEmpty() || codigoT.isEmpty()) {
+        if (numeroT.isEmpty() || tipo.isEmpty() || operadoraT.isEmpty() || tipo.equals("--Seleccione--")) {
             JOptionPane.showMessageDialog(this, "¡Llene todos los requerimientos");
         } else {
-            int cod = Integer.parseInt(codigoT);
-            controladorU.agregarTelefono(numeroT, tipo, operadoraT, cod);
+            // int cod = Integer.parseInt(codigoT);
+            controladorU.agregarTelefono(numeroT, tipo, operadoraT);
             JOptionPane.showMessageDialog(this, "Teléfono creado exitosamente");
+            llenarTablaTelefonos();
             limpiar();
         }
 
@@ -372,12 +439,12 @@ public class VentanaGestionTelefonos extends javax.swing.JInternalFrame {
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         // TODO add your handling code here:
-        String numeroT = txtNumeroEditar.getText();
+        String numeroT = txtNumeroFormateadoEditar.getText();
         String tipo = (String) tipoEditarComboBox.getSelectedItem();
         String operadoraT = (String) operadoraEditarComboBox1.getSelectedItem();
         String codigoT = txtCodigoEditar.getText();
 
-        if (numeroT.isEmpty() || codigoT.isEmpty()) {
+        if (numeroT.isEmpty() || codigoT.isEmpty() || tipo.equals("--Seleccione--")) {
             JOptionPane.showMessageDialog(this, "Llene todos los campos para actualizar el teléfono");
         } else {
             int cod = Integer.parseInt(codigoT);
@@ -386,6 +453,7 @@ public class VentanaGestionTelefonos extends javax.swing.JInternalFrame {
             } else {
                 if (controladorU.actualizarTelefono(numeroT, tipo, operadoraT, cod)) {
                     JOptionPane.showMessageDialog(this, "¡Teléfono actualizado exitosamente!");
+                    llenarTablaTelefonosEditar();
                     limpiar();
                 }
             }
@@ -398,7 +466,8 @@ public class VentanaGestionTelefonos extends javax.swing.JInternalFrame {
 
         String codigoT = txtCodigoBuscar.getText();
         if (codigoT.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Llene el campo del código del teléfono para buscar el teléfono");
+            JOptionPane.showMessageDialog(this, "Llene el campo del código del teléfono "
+                    + "para buscar el teléfono");
         } else {
             int cod = Integer.parseInt(codigoT);
             String informacionTelefono = controladorU.buscarTelefono(cod);
@@ -418,23 +487,62 @@ public class VentanaGestionTelefonos extends javax.swing.JInternalFrame {
         String codigoT = txtCodigoEliminar.getText();
 
         if (codigoT.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Llene el campo del código del teléfono para eliminar el teléfono");
+            JOptionPane.showMessageDialog(this, "Llene el campo del código del teléfono "
+                    + "para eliminar el teléfono");
         } else {
             int cod = Integer.valueOf(codigoT);
             boolean verdad = controladorU.eliminarTelefono(cod);
             if (verdad) {
                 JOptionPane.showMessageDialog(this, "Teléfono eliminado con éxito");
+                llenarTablaTelefonos();
                 txtCodigoEliminar.setText("");
+            } else {
+                JOptionPane.showMessageDialog(this, "Teléfono no encontrado. Intentelo otra "
+                        + "vez para eliminar el teléfono correspondiente");
             }
         }
 
+
     }//GEN-LAST:event_btnEliminarTelefonoActionPerformed
 
+    private void tipoCrearComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipoCrearComboBoxActionPerformed
+        // TODO add your handling code here:
+        try {
+            String item = (String) tipoCrearComboBox.getSelectedItem();
+            if (item.equals("Convencinal")) {
+                txtNumeroFormateadoCrear.setFormatterFactory(
+                        new javax.swing.text.DefaultFormatterFactory(
+                                new javax.swing.text.MaskFormatter("(593)#-####-###")
+                        )
+                );
+                txtNumeroFormateadoEditar.setFormatterFactory(
+                        new javax.swing.text.DefaultFormatterFactory(
+                                new javax.swing.text.MaskFormatter("(593)#-####-###")
+                        )
+                );
+            } else if (item.equals("Celular")) {
+                txtNumeroFormateadoCrear.setFormatterFactory(
+                        new javax.swing.text.DefaultFormatterFactory(
+                                new javax.swing.text.MaskFormatter("(593)###-###-###")
+                        )
+                );
+                txtNumeroFormateadoEditar.setFormatterFactory(
+                        new javax.swing.text.DefaultFormatterFactory(
+                                new javax.swing.text.MaskFormatter("(593)###-###-###")
+                        )
+                );
+            }
+        } catch (java.text.ParseException ex) {
+            JOptionPane.showMessageDialog(this, "Formato del número del teléfono erroneo");
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_tipoCrearComboBoxActionPerformed
+
     public void limpiar() {
-        txtCodigo.setText("");
-        txtNumero.setText("");
+
+        txtNumeroFormateadoCrear.setText("");
         txtCodigoEditar.setText("");
-        txtNumeroEditar.setText("");
+        txtNumeroFormateadoEditar.setText("");
 
     }
 
@@ -473,7 +581,7 @@ public class VentanaGestionTelefonos extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtCodigoBuscar;
     private javax.swing.JTextField txtCodigoEditar;
     private javax.swing.JTextField txtCodigoEliminar;
-    private javax.swing.JTextField txtNumero;
-    private javax.swing.JTextField txtNumeroEditar;
+    private javax.swing.JFormattedTextField txtNumeroFormateadoCrear;
+    private javax.swing.JFormattedTextField txtNumeroFormateadoEditar;
     // End of variables declaration//GEN-END:variables
 }

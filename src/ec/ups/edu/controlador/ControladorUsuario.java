@@ -12,6 +12,7 @@ import ec.ups.edu.idao.IUsuarioDAO;
 import ec.ups.edu.modelo.Telefono;
 import ec.ups.edu.modelo.Usuario;
 import ec.ups.edu.vista.VentanaInicioSesion;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,6 +20,8 @@ import java.util.Map;
  * @author Adolfo
  */
 public class ControladorUsuario {
+
+    private int contadorTelefono;
 
     //objetos vista
     private VentanaInicioSesion vista;
@@ -37,6 +40,8 @@ public class ControladorUsuario {
 
         // this.vistaT = vistaDireccion;
         this.telefonoDAO = direccionDAO;
+
+        contadorTelefono = 0;
 
     }
 
@@ -81,13 +86,14 @@ public class ControladorUsuario {
         }
     }
 
-    public void agregarTelefono(String numero, String tipo, String operadora, int codigo) {
+    public void agregarTelefono(String numero, String tipo, String operadora) {
 
-        telefono = new Telefono(codigo, numero, tipo, operadora);
+        contadorTelefono++;
+        telefono = new Telefono(contadorTelefono, numero, tipo, operadora);
         telefonoDAO.create(telefono);
         usuario.agregarTelefono(telefono);
         usuarioDAO.update(usuario);
-        System.out.println(usuario);
+        System.out.println(usuario.getListaTelefonos());
     }
 
     public boolean actualizarTelefono(String numero, String tipo, String operadora, int codigo) {
@@ -104,7 +110,7 @@ public class ControladorUsuario {
             telefonoDAO.update(telefono);
             usuario.actualizarTelefono(telefono);
             usuarioDAO.update(usuario);
-            System.out.println(usuario);
+            System.out.println("\neditar\n"+usuario.getListaTelefonos());
             return true;
         }
 
@@ -112,13 +118,13 @@ public class ControladorUsuario {
 
     public String buscarTelefono(int codigo) {
         telefono = telefonoDAO.read(codigo);
-        if(telefono != null){
+        if (telefono != null) {
             usuario.buscar(telefono);
             return telefono.toString();
         } else {
             return "";
         }
-        
+
     }
 
     public boolean eliminarTelefono(int codigo) {
@@ -132,5 +138,10 @@ public class ControladorUsuario {
             return true;
         }
 
+    }
+
+    public List<Telefono> listarTelefonos() {
+
+        return usuario.listar();
     }
 }
