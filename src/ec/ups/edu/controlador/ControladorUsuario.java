@@ -109,7 +109,28 @@ public class ControladorUsuario {
         }
 
     }
-    
-    
 
+    public String buscarTelefono(int codigo) {
+        telefono = telefonoDAO.read(codigo);
+        if(telefono != null){
+            usuario.buscar(telefono);
+            return telefono.toString();
+        } else {
+            return "";
+        }
+        
+    }
+
+    public boolean eliminarTelefono(int codigo) {
+
+        telefono = telefonoDAO.read(codigo);
+        if (telefono == null) {
+            return false;
+        } else {
+            usuario.eliminarTelefono(telefono);
+            telefonoDAO.delete(telefono);
+            return true;
+        }
+
+    }
 }

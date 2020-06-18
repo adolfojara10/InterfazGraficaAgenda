@@ -95,7 +95,7 @@ public class Usuario {
         }
     }
 
-    public void eliminarDireccion(Telefono telefono) {
+    public void eliminarTelefono(Telefono telefono) {
         if (listaTelefonos.contains(telefono)) {
             int index = listaTelefonos.indexOf(telefono);
             listaTelefonos.remove(index);
@@ -108,9 +108,14 @@ public class Usuario {
     }
 
     //buscar un telefono
-    public Telefono buscar(int id) {
+    public Telefono buscar(Telefono telefono) {
 
-        return listaTelefonos.get(id);
+        if (listaTelefonos.contains(telefono)) {
+            int index = listaTelefonos.indexOf(telefono);
+            return listaTelefonos.get(index);
+        } else {
+            return null;
+        }
 
     }
 
