@@ -54,6 +54,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Listar tel&#xe9;fonos"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="listarMenuItemActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="cerrarSesionMenuItem">
               <Properties>

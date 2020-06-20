@@ -7,8 +7,10 @@ package ec.ups.edu.vista;
 
 import ec.ups.edu.controlador.ControladorUsuario;
 import ec.ups.edu.modelo.Telefono;
-import java.util.ArrayList;
-import java.util.List;
+import java.text.ParseException;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -27,64 +29,69 @@ public class VentanaGestionTelefonos extends javax.swing.JInternalFrame {
      */
     public VentanaGestionTelefonos(ControladorUsuario controladorU) {
         this.controladorU = controladorU;
+
         initComponents();
         cargarDatosOperadora();
+        botonesInicio();
 
+    }
+
+    public void botonesInicio() {
+
+        btnAgregar.setEnabled(true);
+        btnCancelar.setEnabled(false);
+        btnEditar.setEnabled(false);
+        btnEliminar.setEnabled(false);
+
+    }
+    
+    public void botonesEditar(){
+        btnAgregar.setEnabled(false);
+        btnCancelar.setEnabled(true);
+        btnEditar.setEnabled(true);
+        btnEliminar.setEnabled(true);
     }
 
     public void cargarDatosOperadora() {
         operadoras = new ArrayList<>();
+
+        //operadoras.add("Seleccione");
         operadoras.add("Movistar");
         operadoras.add("Claro");
         operadoras.add("CNT");
         operadoras.add("Tuenti");
         operadoras.add("Etapa");
 
-        llenarComboBoxCrear();
-        llenarComboBoxEditar();
+        cargarCBXOperadora();
+
     }
 
-    public void llenarComboBoxCrear() {
-        DefaultComboBoxModel modelo = (DefaultComboBoxModel) operadoraCrearComboBox.getModel();
+    public void cargarCBXOperadora() {
+
+        DefaultComboBoxModel modelo = (DefaultComboBoxModel) cbxOperadora.getModel();
         for (String opera : operadoras) {
             modelo.addElement(opera);
         }
-    }
 
-    public void llenarComboBoxEditar() {
-        DefaultComboBoxModel modelo = (DefaultComboBoxModel) operadoraEditarComboBox1.getModel();
-        for (String opera : operadoras) {
-            modelo.addElement(opera);
-        }
     }
 
     public void llenarTablaTelefonos() {
 
-        DefaultTableModel modelo = (DefaultTableModel) tableTelefonos.getModel();
+        DefaultTableModel modelo = (DefaultTableModel) tblTelefonos.getModel();
 
-        for (int i = 0; i < modelo.getRowCount(); i++) {
-            modelo.removeRow(i);
-        }
+        modelo.setRowCount(0);
 
         for (Telefono telefono : controladorU.listarTelefonos()) {
             Object[] rowData = {telefono.getCodigo(), telefono.getNumero(),
                 telefono.getTipo(), telefono.getOperadora()};
             modelo.addRow(rowData);
         }
+        tblTelefonos.setModel(modelo);
     }
 
-    public void llenarTablaTelefonosEditar() {
-        DefaultTableModel modelo = (DefaultTableModel) tableTelefonos.getModel();
-
-        for (int i = 0; i < modelo.getRowCount(); i++) {
-            modelo.removeRow(i);
-        }
-
-        for (Telefono telefono : controladorU.listarTelefonos()) {
-            Object[] rowData = {telefono.getCodigo(), telefono.getNumero(),
-                telefono.getTipo(), telefono.getOperadora()};
-            modelo.addRow(rowData);
-        }
+    public void cargarCodigo() {
+        int cod = controladorU.codigoTelefono();
+        txtCodigo.setText(String.valueOf(cod));
     }
 
     /**
@@ -96,113 +103,154 @@ public class VentanaGestionTelefonos extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        registrar = new javax.swing.JLabel();
-        numero = new javax.swing.JLabel();
-        operadoraCrearComboBox = new javax.swing.JComboBox<>();
-        operadora = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        tipoCrearComboBox = new javax.swing.JComboBox<>();
-        codigo = new javax.swing.JLabel();
-        txtCodigo = new javax.swing.JTextField();
-        jSeparator1 = new javax.swing.JSeparator();
-        btnCrearTelefono = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        txtCodigoEditar = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        operadoraEditarComboBox1 = new javax.swing.JComboBox<>();
-        jLabel6 = new javax.swing.JLabel();
-        tipoEditarComboBox = new javax.swing.JComboBox<>();
+        btnAgregar = new javax.swing.JButton();
+        txtCodigo = new javax.swing.JTextField();
+        cbxTipo = new javax.swing.JComboBox<>();
+        txtFormatedNumero = new javax.swing.JFormattedTextField();
+        cbxOperadora = new javax.swing.JComboBox<>();
         btnEditar = new javax.swing.JButton();
-        jSeparator2 = new javax.swing.JSeparator();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        txtCodigoBuscar = new javax.swing.JTextField();
-        btnBuscar = new javax.swing.JButton();
-        jSeparator3 = new javax.swing.JSeparator();
-        jLabel9 = new javax.swing.JLabel();
+        btnEliminar = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tableTelefonos = new javax.swing.JTable();
-        btnAtras = new javax.swing.JButton();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        txtCodigoEliminar = new javax.swing.JTextField();
-        btnEliminarTelefono = new javax.swing.JToggleButton();
-        txtNumeroFormateadoCrear = new javax.swing.JFormattedTextField();
-        txtNumeroFormateadoEditar = new javax.swing.JFormattedTextField();
+        tblTelefonos = new javax.swing.JTable();
 
-        setTitle("Gestionar Teléfonos");
-
-        registrar.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        registrar.setText("Registrar un nuevo teléfono");
-
-        numero.setText("Número");
-
-        operadora.setText("Operadora");
-
-        jLabel1.setText("Tipo");
-
-        tipoCrearComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--Seleccione--", "Celular", "Convencional" }));
-        tipoCrearComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tipoCrearComboBoxActionPerformed(evt);
+        setClosable(true);
+        setTitle("Gestión Teléfonos");
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameActivated(evt);
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
             }
         });
 
-        codigo.setText("Código");
+        jLabel1.setText("Código");
+
+        jLabel2.setText("Tipo");
+
+        jLabel3.setText("Número");
+
+        jLabel4.setText("Operadora");
+
+        btnAgregar.setBackground(new java.awt.Color(102, 102, 255));
+        btnAgregar.setText("Agregar");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
 
         txtCodigo.setEditable(false);
         txtCodigo.setBackground(new java.awt.Color(102, 102, 102));
-        txtCodigo.setText("0");
 
-        btnCrearTelefono.setBackground(new java.awt.Color(153, 153, 255));
-        btnCrearTelefono.setText("Crear Teléfono");
-        btnCrearTelefono.addActionListener(new java.awt.event.ActionListener() {
+        cbxTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Celular", "Casa" }));
+        cbxTipo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCrearTelefonoActionPerformed(evt);
+                cbxTipoActionPerformed(evt);
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel2.setText("Editar un Teléfono");
-
-        jLabel3.setText("Código");
-
-        jLabel4.setText("Número");
-
-        jLabel5.setText("Operadora");
-
-        jLabel6.setText("Tipo");
-
-        tipoEditarComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--Seleccione--", "Celular", "Convencional" }));
+        cbxOperadora.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
 
         btnEditar.setBackground(new java.awt.Color(153, 153, 255));
-        btnEditar.setText("Editar Teléfono");
+        btnEditar.setText("Editar");
         btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditarActionPerformed(evt);
             }
         });
 
-        jLabel7.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel7.setText("Buscar Teléfono");
-
-        jLabel8.setText("Código");
-
-        btnBuscar.setBackground(new java.awt.Color(153, 153, 255));
-        btnBuscar.setText("Buscar");
-        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+        btnEliminar.setBackground(new java.awt.Color(255, 0, 0));
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuscarActionPerformed(evt);
+                btnEliminarActionPerformed(evt);
             }
         });
 
-        jLabel9.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel9.setText("Sus Teléfonos");
+        btnCancelar.setBackground(new java.awt.Color(255, 51, 51));
+        btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
-        tableTelefonos.setAutoCreateRowSorter(true);
-        tableTelefonos.setModel(new javax.swing.table.DefaultTableModel(
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(44, 44, 44)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addComponent(btnAgregar)
+                        .addGap(45, 45, 45)
+                        .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnEliminar)
+                        .addGap(38, 38, 38)
+                        .addComponent(btnCancelar))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(txtCodigo)
+                        .addComponent(cbxTipo, 0, 165, Short.MAX_VALUE)
+                        .addComponent(txtFormatedNumero)
+                        .addComponent(cbxOperadora, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(cbxTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(txtFormatedNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(cbxOperadora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAgregar)
+                    .addComponent(btnEditar)
+                    .addComponent(btnEliminar)
+                    .addComponent(btnCancelar))
+                .addGap(16, 16, 16))
+        );
+
+        tblTelefonos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -225,310 +273,90 @@ public class VentanaGestionTelefonos extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(tableTelefonos);
-        if (tableTelefonos.getColumnModel().getColumnCount() > 0) {
-            tableTelefonos.getColumnModel().getColumn(0).setResizable(false);
-            tableTelefonos.getColumnModel().getColumn(1).setResizable(false);
-            tableTelefonos.getColumnModel().getColumn(2).setResizable(false);
-            tableTelefonos.getColumnModel().getColumn(3).setResizable(false);
+        tblTelefonos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblTelefonosMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblTelefonos);
+        if (tblTelefonos.getColumnModel().getColumnCount() > 0) {
+            tblTelefonos.getColumnModel().getColumn(0).setResizable(false);
+            tblTelefonos.getColumnModel().getColumn(1).setResizable(false);
+            tblTelefonos.getColumnModel().getColumn(2).setResizable(false);
+            tblTelefonos.getColumnModel().getColumn(3).setResizable(false);
         }
-
-        btnAtras.setBackground(new java.awt.Color(255, 0, 0));
-        btnAtras.setText("Atrás");
-        btnAtras.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAtrasActionPerformed(evt);
-            }
-        });
-
-        jLabel10.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel10.setText("Eliminar Teléfono");
-
-        jLabel11.setText("Código");
-
-        btnEliminarTelefono.setBackground(new java.awt.Color(255, 0, 0));
-        btnEliminarTelefono.setText("Eliminar Teléfono");
-        btnEliminarTelefono.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminarTelefonoActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btnEditar)
-                .addGap(199, 199, 199))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel8)
-                                .addGap(45, 45, 45)
-                                .addComponent(txtCodigoBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(42, 42, 42)
-                                .addComponent(jLabel11))
-                            .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 444, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(txtCodigoEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(numero)
-                                            .addComponent(operadora))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(operadoraCrearComboBox, 0, 118, Short.MAX_VALUE)
-                                            .addComponent(txtNumeroFormateadoCrear))
-                                        .addGap(51, 51, 51)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jLabel1)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(tipoCrearComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(codigo)
-                                                .addGap(49, 49, 49)
-                                                .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                    .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 444, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(btnCrearTelefono)
-                                        .addGap(155, 155, 155))
-                                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 444, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel2)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel3)
-                                            .addComponent(jLabel5))
-                                        .addGap(24, 24, 24)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(operadoraEditarComboBox1, 0, 118, Short.MAX_VALUE)
-                                            .addComponent(txtCodigoEditar))
-                                        .addGap(36, 36, 36)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel4)
-                                            .addComponent(jLabel6))))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(tipoEditarComboBox, 0, 117, Short.MAX_VALUE)
-                                    .addComponent(txtNumeroFormateadoEditar)))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(153, 153, 153)
-                        .addComponent(registrar))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(202, 202, 202)
-                        .addComponent(jLabel9))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(221, 221, 221)
-                        .addComponent(btnAtras)))
-                .addContainerGap(35, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(55, 55, 55)
-                .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel10)
-                .addGap(91, 91, 91))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(69, 69, 69)
-                .addComponent(btnBuscar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnEliminarTelefono)
-                .addGap(84, 84, 84))
+                .addGap(44, 44, 44)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(registrar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(numero)
-                    .addComponent(jLabel1)
-                    .addComponent(tipoCrearComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtNumeroFormateadoCrear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(operadora, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(operadoraCrearComboBox)
-                    .addComponent(codigo)
-                    .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(btnCrearTelefono)
-                .addGap(18, 18, 18)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
-                .addGap(28, 28, 28)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txtCodigoEditar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4)
-                    .addComponent(txtNumeroFormateadoEditar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(operadoraEditarComboBox1)
-                    .addComponent(jLabel6)
-                    .addComponent(tipoEditarComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(btnEditar)
-                .addGap(18, 18, 18)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel10))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(txtCodigoBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel11)
-                    .addComponent(txtCodigoEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnBuscar)
-                    .addComponent(btnEliminarTelefono))
-                .addGap(12, 12, 12)
-                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnAtras)
-                .addGap(16, 16, 16))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
+    private void formInternalFrameActivated(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameActivated
         // TODO add your handling code here:
+        cargarCodigo();
+        llenarTablaTelefonos();
 
-        this.dispose();
+    }//GEN-LAST:event_formInternalFrameActivated
 
-    }//GEN-LAST:event_btnAtrasActionPerformed
-
-    private void btnCrearTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearTelefonoActionPerformed
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         // TODO add your handling code here:
+        String numero = txtFormatedNumero.getText();
+        String operadora = cbxOperadora.getSelectedItem().toString();
+        String tipo = cbxTipo.getSelectedItem().toString();
 
-        String numeroT = txtNumeroFormateadoCrear.getText();
-        String tipo = (String) tipoCrearComboBox.getSelectedItem();
-        String operadoraT = (String) operadoraCrearComboBox.getSelectedItem();
-        //  String codigoT = txtCodigo.getText();
-
-        if (numeroT.isEmpty() || tipo.isEmpty() || operadoraT.isEmpty() || tipo.equals("--Seleccione--")) {
-            JOptionPane.showMessageDialog(this, "¡Llene todos los requerimientos");
+        if (numero.isEmpty() || tipo.equals(cbxTipo.getItemAt(0)) || operadora.equals(cbxOperadora.getItemAt(0))) {
+            JOptionPane.showMessageDialog(this, "Llene el casillero del número del teléfono");
         } else {
-            // int cod = Integer.parseInt(codigoT);
-            controladorU.agregarTelefono(numeroT, tipo, operadoraT);
-            JOptionPane.showMessageDialog(this, "Teléfono creado exitosamente");
+            controladorU.agregarTelefono(numero, tipo, operadora);
+            JOptionPane.showMessageDialog(this, "Teléfono creado con exito");
             llenarTablaTelefonos();
             limpiar();
-        }
-
-    }//GEN-LAST:event_btnCrearTelefonoActionPerformed
-
-    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        // TODO add your handling code here:
-        String numeroT = txtNumeroFormateadoEditar.getText();
-        String tipo = (String) tipoEditarComboBox.getSelectedItem();
-        String operadoraT = (String) operadoraEditarComboBox1.getSelectedItem();
-        String codigoT = txtCodigoEditar.getText();
-
-        if (numeroT.isEmpty() || codigoT.isEmpty() || tipo.equals("--Seleccione--")) {
-            JOptionPane.showMessageDialog(this, "Llene todos los campos para actualizar el teléfono");
-        } else {
-            int cod = Integer.parseInt(codigoT);
-            if (controladorU.buscarTelefono(cod).isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Código del teléfono erroneo");
-            } else {
-                if (controladorU.actualizarTelefono(numeroT, tipo, operadoraT, cod)) {
-                    JOptionPane.showMessageDialog(this, "¡Teléfono actualizado exitosamente!");
-                    llenarTablaTelefonosEditar();
-                    limpiar();
-                }
-            }
 
         }
-    }//GEN-LAST:event_btnEditarActionPerformed
-
-    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        // TODO add your handling code here:
-
-        String codigoT = txtCodigoBuscar.getText();
-        if (codigoT.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Llene el campo del código del teléfono "
-                    + "para buscar el teléfono");
-        } else {
-            int cod = Integer.parseInt(codigoT);
-            String informacionTelefono = controladorU.buscarTelefono(cod);
-            if (informacionTelefono.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Teléfono no encontrado. Intentelo otra vez");
-            } else {
-                JOptionPane.showMessageDialog(this, "Teléfono:\n" + informacionTelefono);
-                txtCodigoBuscar.setText("");
-            }
-        }
-
-    }//GEN-LAST:event_btnBuscarActionPerformed
-
-    private void btnEliminarTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarTelefonoActionPerformed
-        // TODO add your handling code here:
-
-        String codigoT = txtCodigoEliminar.getText();
-
-        if (codigoT.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Llene el campo del código del teléfono "
-                    + "para eliminar el teléfono");
-        } else {
-            int cod = Integer.valueOf(codigoT);
-            boolean verdad = controladorU.eliminarTelefono(cod);
-            if (verdad) {
-                JOptionPane.showMessageDialog(this, "Teléfono eliminado con éxito");
-                llenarTablaTelefonos();
-                txtCodigoEliminar.setText("");
-            } else {
-                JOptionPane.showMessageDialog(this, "Teléfono no encontrado. Intentelo otra "
-                        + "vez para eliminar el teléfono correspondiente");
-            }
-        }
+    }//GEN-LAST:event_btnAgregarActionPerformed
 
 
-    }//GEN-LAST:event_btnEliminarTelefonoActionPerformed
-
-    private void tipoCrearComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipoCrearComboBoxActionPerformed
+    private void cbxTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxTipoActionPerformed
         // TODO add your handling code here:
         try {
-            String item = (String) tipoCrearComboBox.getSelectedItem();
-            if (item.equals("Convencinal")) {
-                txtNumeroFormateadoCrear.setFormatterFactory(
+            String item = (String) cbxTipo.getSelectedItem();
+            if (item.equals("Casa")) {
+                txtFormatedNumero.setFormatterFactory(
                         new javax.swing.text.DefaultFormatterFactory(
                                 new javax.swing.text.MaskFormatter("(593)#-####-###")
                         )
                 );
-                txtNumeroFormateadoEditar.setFormatterFactory(
-                        new javax.swing.text.DefaultFormatterFactory(
-                                new javax.swing.text.MaskFormatter("(593)#-####-###")
-                        )
-                );
+
             } else if (item.equals("Celular")) {
-                txtNumeroFormateadoCrear.setFormatterFactory(
+                txtFormatedNumero.setFormatterFactory(
                         new javax.swing.text.DefaultFormatterFactory(
                                 new javax.swing.text.MaskFormatter("(593)###-###-###")
                         )
                 );
-                txtNumeroFormateadoEditar.setFormatterFactory(
+
+            } else {
+                txtFormatedNumero.setFormatterFactory(
                         new javax.swing.text.DefaultFormatterFactory(
-                                new javax.swing.text.MaskFormatter("(593)###-###-###")
+                                new javax.swing.text.MaskFormatter("(593)#-####-####")
                         )
                 );
             }
@@ -536,52 +364,88 @@ public class VentanaGestionTelefonos extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Formato del número del teléfono erroneo");
             ex.printStackTrace();
         }
-    }//GEN-LAST:event_tipoCrearComboBoxActionPerformed
+    }//GEN-LAST:event_cbxTipoActionPerformed
+
+    private void tblTelefonosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTelefonosMouseClicked
+        // TODO add your handling code here:
+        int fila = tblTelefonos.getSelectedRow();
+        int cod = (int) tblTelefonos.getValueAt(fila, 0);
+        String num = (String) tblTelefonos.getValueAt(fila, 1);
+        String tipo = (String) tblTelefonos.getValueAt(fila, 2);
+        String opera = (String) tblTelefonos.getValueAt(fila, 3);
+
+        txtCodigo.setText(String.valueOf(cod));
+        txtFormatedNumero.setValue(num);
+        cbxTipo.setSelectedItem(tipo);
+        cbxOperadora.setSelectedItem(opera);
+        
+        botonesEditar();
+
+    }//GEN-LAST:event_tblTelefonosMouseClicked
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        // TODO add your handling code here:
+
+        String numero = txtFormatedNumero.getText();
+        String operadora = cbxOperadora.getSelectedItem().toString();
+        String tipo = cbxTipo.getSelectedItem().toString();
+        int cod = Integer.parseInt(txtCodigo.getText());
+
+        if (numero.isEmpty()
+                || tipo.equals(cbxTipo.getItemAt(0)) || operadora.equals(cbxOperadora.getItemAt(0))) {
+            JOptionPane.showMessageDialog(this, "Llene todos los requerimientos");
+        } else {
+            controladorU.actualizarTelefono(numero, tipo, operadora, cod);
+            JOptionPane.showMessageDialog(this, "Teléfono actualizado con exito");
+            llenarTablaTelefonos();
+            limpiar();
+
+        }
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+        limpiar();
+        botonesInicio();
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // TODO add your handling code here:
+        int eliminar = JOptionPane.showConfirmDialog(this, "¿Seguro quieres eliminar este teléfono?");
+        if(eliminar == JOptionPane.YES_OPTION){
+            int cod = Integer.parseInt(txtCodigo.getText());
+            controladorU.eliminarTelefono(cod);
+            JOptionPane.showMessageDialog(this, "Telefono eliminado con exito");
+            llenarTablaTelefonos();
+            botonesInicio();
+            limpiar();
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
     public void limpiar() {
 
-        txtNumeroFormateadoCrear.setText("");
-        txtCodigoEditar.setText("");
-        txtNumeroFormateadoEditar.setText("");
-
+        txtCodigo.setText("");
+        txtFormatedNumero.setValue("");
+        cbxOperadora.setSelectedIndex(0);
+        cbxTipo.setSelectedIndex(0);
+        cargarCodigo();
     }
 
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAtras;
-    private javax.swing.JButton btnBuscar;
-    private javax.swing.JButton btnCrearTelefono;
+    private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEditar;
-    private javax.swing.JToggleButton btnEliminarTelefono;
-    private javax.swing.JLabel codigo;
+    private javax.swing.JButton btnEliminar;
+    private javax.swing.JComboBox<String> cbxOperadora;
+    private javax.swing.JComboBox<String> cbxTipo;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JLabel numero;
-    private javax.swing.JLabel operadora;
-    private javax.swing.JComboBox<String> operadoraCrearComboBox;
-    private javax.swing.JComboBox<String> operadoraEditarComboBox1;
-    private javax.swing.JLabel registrar;
-    private javax.swing.JTable tableTelefonos;
-    private javax.swing.JComboBox<String> tipoCrearComboBox;
-    private javax.swing.JComboBox<String> tipoEditarComboBox;
+    private javax.swing.JTable tblTelefonos;
     private javax.swing.JTextField txtCodigo;
-    private javax.swing.JTextField txtCodigoBuscar;
-    private javax.swing.JTextField txtCodigoEditar;
-    private javax.swing.JTextField txtCodigoEliminar;
-    private javax.swing.JFormattedTextField txtNumeroFormateadoCrear;
-    private javax.swing.JFormattedTextField txtNumeroFormateadoEditar;
+    private javax.swing.JFormattedTextField txtFormatedNumero;
     // End of variables declaration//GEN-END:variables
 }

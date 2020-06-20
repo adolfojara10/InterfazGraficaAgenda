@@ -14,16 +14,20 @@ import java.util.Map;
  *
  * @author Adolfo
  */
-public class TelefonoDAOImpl implements ITelefonoDAO{
+public class TelefonoDAOImpl implements ITelefonoDAO {
+
     private Map<Integer, Telefono> listaTelefonos;
+    private int codigo;
 
     public TelefonoDAOImpl() {
         listaTelefonos = new HashMap<>();
+        codigo = 0;
     }
 
     //mandar un telefono a la base datos
     @Override
     public void create(Telefono telefono) {
+        telefono.setCodigo(++codigo);
         listaTelefonos.put(telefono.getCodigo(), telefono);
     }
 
@@ -69,5 +73,10 @@ public class TelefonoDAOImpl implements ITelefonoDAO{
     @Override
     public Map<Integer, Telefono> findAll() {
         return listaTelefonos;
+    }
+    
+    @Override
+    public int codigoTelefono(){
+        return (codigo);
     }
 }

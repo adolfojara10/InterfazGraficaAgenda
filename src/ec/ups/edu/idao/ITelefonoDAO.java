@@ -70,4 +70,7 @@ public interface ITelefonoDAO {
      * @return Map
      */
     public Map<Integer, Telefono> findAll();
+    
+    public int codigoTelefono();
+    
 }

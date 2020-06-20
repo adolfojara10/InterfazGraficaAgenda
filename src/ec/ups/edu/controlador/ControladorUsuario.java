@@ -86,33 +86,32 @@ public class ControladorUsuario {
         }
     }
 
+    public boolean buscar(String id) {
+        usuario = usuarioDAO.read(id);
+        if (usuario == null) {
+            return false;
+        } else {
+            return true;
+        }
+
+    }
+
     public void agregarTelefono(String numero, String tipo, String operadora) {
 
-        contadorTelefono++;
-        telefono = new Telefono(contadorTelefono, numero, tipo, operadora);
+        telefono = new Telefono(0, numero, tipo, operadora);
         telefonoDAO.create(telefono);
         usuario.agregarTelefono(telefono);
         usuarioDAO.update(usuario);
         System.out.println(usuario.getListaTelefonos());
     }
 
-    public boolean actualizarTelefono(String numero, String tipo, String operadora, int codigo) {
+    public void actualizarTelefono(String numero, String tipo, String operadora, int codigo) {
 
-        telefono = telefonoDAO.read(codigo);
-        if (telefono == null) {
-            return false;
-        } else {
-            telefono.setCodigo(codigo);
-            telefono.setNumero(numero);
-            telefono.setOperadora(operadora);
-            telefono.setTipo(tipo);
-
-            telefonoDAO.update(telefono);
-            usuario.actualizarTelefono(telefono);
-            usuarioDAO.update(usuario);
-            System.out.println("\neditar\n"+usuario.getListaTelefonos());
-            return true;
-        }
+        telefono = new Telefono(codigo, numero, tipo, operadora);
+        telefonoDAO.update(telefono);
+        usuario.actualizarTelefono(telefono);
+        usuarioDAO.update(usuario);
+        System.out.println("\neditar\n" + usuario.getListaTelefonos());
 
     }
 
@@ -127,20 +126,25 @@ public class ControladorUsuario {
 
     }
 
-    public boolean eliminarTelefono(int codigo) {
+    public void eliminarTelefono(int codigo) {
 
         telefono = telefonoDAO.read(codigo);
-        if (telefono == null) {
-            return false;
-        } else {
-            usuario.eliminarTelefono(telefono);
-            telefonoDAO.delete(telefono);
-            return true;
-        }
+        usuario.eliminarTelefono(telefono);
+        telefonoDAO.delete(telefono);
 
     }
 
+    public int codigoTelefono() {
+        int conta = telefonoDAO.codigoTelefono();
+        return (++conta);
+    }
+
     public List<Telefono> listarTelefonos() {
+
+        return usuario.listar();
+    }
+
+    public List<Telefono> listarTelefonosVentana(String id) {
 
         return usuario.listar();
     }

@@ -25,6 +25,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private VentanaInicioSesion ventanaInicioSesion;
     private VentanaRegistrarUsuario ventanaRegistrarUsuario;
     private VentanaGestionTelefonos ventanaGestionTelefonos;
+    private VentanaListarTelefonos ventanaListar;
 
     /**
      * Creates new form VentanaPrincipal
@@ -42,7 +43,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         ventanaInicioSesion = new VentanaInicioSesion(controladorU, this);
         ventanaRegistrarUsuario = new VentanaRegistrarUsuario(controladorU);
         ventanaGestionTelefonos = new VentanaGestionTelefonos(controladorU);
-
+        ventanaListar = new VentanaListarTelefonos(controladorU);
     }
 
     public JMenuItem getCerrarSesionMenuItem() {
@@ -117,6 +118,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         listarMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
         listarMenuItem.setText("Listar teléfonos");
+        listarMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                listarMenuItemActionPerformed(evt);
+            }
+        });
         fileMenu.add(listarMenuItem);
 
         cerrarSesionMenuItem.setText("Cerrar sesión");
@@ -208,6 +214,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         ventanaGestionTelefonos.setVisible(true);
 
     }//GEN-LAST:event_gestionTelefonosMenuItemActionPerformed
+
+    private void listarMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarMenuItemActionPerformed
+        // TODO add your handling code here:
+        desktopPane.add(ventanaListar);
+        ventanaListar.setVisible(rootPaneCheckingEnabled);
+    }//GEN-LAST:event_listarMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
