@@ -64,6 +64,22 @@ public class ControladorUsuario {
         }
     }
 
+    public Usuario devolverUsuario() {
+        return usuario;
+    }
+
+    public void actualizarUsuario(String nombre, String apellido, String cedula, String correo,
+            String password) {
+        usuario.setNombre(nombre);
+        usuario.setApellido(apellido);
+        usuario.setCorreo(correo);
+        usuario.setContraseña(password);
+        usuario.setCedula(cedula);
+        
+        usuarioDAO.update(usuario);
+       
+    }
+
     public void imprimirTelefonos() {
         Map<Integer, Telefono> telefonos;
         telefonos = telefonoDAO.findAll();
@@ -133,8 +149,8 @@ public class ControladorUsuario {
         telefonoDAO.delete(telefono);
 
     }
-    
-    public Map<Integer,Telefono> listarTodos(){
+
+    public Map<Integer, Telefono> listarTodos() {
         return telefonoDAO.findAll();
     }
 

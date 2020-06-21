@@ -187,8 +187,8 @@ public class VentanaRegistrarUsuario extends javax.swing.JInternalFrame {
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
         // TODO add your handling code here:
 
-        this.dispose();
-
+        this.setVisible(false);
+        limpiar();
 
     }//GEN-LAST:event_btnAtrasActionPerformed
 
@@ -209,7 +209,7 @@ public class VentanaRegistrarUsuario extends javax.swing.JInternalFrame {
             controladorU.crearUsuario(nombre, apellido, cedula, correo, password);
             JOptionPane.showMessageDialog(this, "Usuario creado con exito");
             limpiar();
-            this.dispose();
+            this.setVisible(false);
         }
 
         controladorU.imprimirUsuarios();

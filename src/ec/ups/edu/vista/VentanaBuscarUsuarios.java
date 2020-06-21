@@ -19,7 +19,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Adolfo
  */
 public class VentanaBuscarUsuarios extends javax.swing.JInternalFrame {
-    
+
     private ControladorUsuario controladorU;
     private List<Telefono> telefonos;
 
@@ -150,7 +150,7 @@ public class VentanaBuscarUsuarios extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 158, Short.MAX_VALUE)
                         .addComponent(txtListar, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(62, 62, 62))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -170,9 +170,9 @@ public class VentanaBuscarUsuarios extends javax.swing.JInternalFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(4, 4, 4)
                                 .addComponent(btnCancelar)
-                                .addGap(29, 29, 29)
-                                .addComponent(btnListarTodos)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnListarTodos)
+                                .addGap(32, 32, 32)
                                 .addComponent(btnAtras)
                                 .addGap(29, 29, 29))))))
         );
@@ -231,15 +231,19 @@ public class VentanaBuscarUsuarios extends javax.swing.JInternalFrame {
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
         // TODO add your handling code here:
 
-        this.dispose();
+        this.setVisible(false);
         limpiar();
+        DefaultTableModel modelo = (DefaultTableModel) tblListar.getModel();
+        modelo.setRowCount(0);
+        tblListar.setModel(modelo);
+        
     }//GEN-LAST:event_btnAtrasActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
 
         String id = (String) txtListar.getText();
-        
+
         if (id == null) {
             JOptionPane.showMessageDialog(this, "Llene el campo requerido para listar sus teléfonos");
         } else {
@@ -248,7 +252,7 @@ public class VentanaBuscarUsuarios extends javax.swing.JInternalFrame {
                 txtNombre.setText(u.getNombre());
                 txtApellido.setText(u.getApellido());
                 txtCorreo.setText(u.getCorreo());
-                
+
                 telefonos = u.getListaTelefonos();
                 if (telefonos.isEmpty()) {
                     JOptionPane.showMessageDialog(this, "Usted no tiene ningún teléfono creado");
@@ -258,33 +262,39 @@ public class VentanaBuscarUsuarios extends javax.swing.JInternalFrame {
             } else {
                 JOptionPane.showMessageDialog(this, "Usuario no encontrado. Intentelo otra vez");
             }
-            
+
         }
-        
+
 
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
         limpiar();
+        // Map<Integer, Telefono> telefonosDao = controladorU.listarTodos();
+        DefaultTableModel modelo = (DefaultTableModel) tblListar.getModel();
+        modelo.setRowCount(0);
+        tblListar.setModel(modelo);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnListarTodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarTodosActionPerformed
         // TODO add your handling code here:
+        limpiar();
+
         Map<Integer, Telefono> telefonosDao = controladorU.listarTodos();
         DefaultTableModel modelo = (DefaultTableModel) tblListar.getModel();
         modelo.setRowCount(0);
-        
+
         for (Map.Entry<Integer, Telefono> tele : telefonosDao.entrySet()) {
-            
+
             Telefono t = tele.getValue();
             Object[] te = {t.getCodigo(), t.getNumero(), t.getTipo(), t.getOperadora()};
             modelo.addRow(te);
         }
         tblListar.setModel(modelo);
-        
+
     }//GEN-LAST:event_btnListarTodosActionPerformed
-    
+
     public void llenarTablaTelefonos(List<Telefono> teles) {
         DefaultTableModel modelo = (DefaultTableModel) tblListar.getModel();
         modelo.setRowCount(0);
@@ -295,7 +305,7 @@ public class VentanaBuscarUsuarios extends javax.swing.JInternalFrame {
         }
         tblListar.setModel(modelo);
     }
-    
+
     public void limpiar() {
         txtListar.setText("");
         txtNombre.setText("");

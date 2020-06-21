@@ -44,6 +44,7 @@ public class VentanaInicioSesion extends javax.swing.JInternalFrame {
         txtPassword = new javax.swing.JPasswordField();
         txtCorreo = new javax.swing.JTextField();
 
+        setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         setMaximizable(true);
         setResizable(true);
@@ -123,7 +124,7 @@ public class VentanaInicioSesion extends javax.swing.JInternalFrame {
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
         // TODO add your handling code here:
 
-        this.dispose();
+        this.setVisible(false);
 
     }//GEN-LAST:event_btnAtrasActionPerformed
 
@@ -141,7 +142,7 @@ public class VentanaInicioSesion extends javax.swing.JInternalFrame {
             if (verdad) {
                 JOptionPane.showMessageDialog(this, "¡Sesion iniciada con exito!");
                 limpiar();
-                this.dispose();
+                this.setVisible(false);
                 activarMenus();
 
             } else {

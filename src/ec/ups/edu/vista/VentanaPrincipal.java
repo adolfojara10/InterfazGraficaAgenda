@@ -17,15 +17,16 @@ import javax.swing.JOptionPane;
  * @author Adolfo
  */
 public class VentanaPrincipal extends javax.swing.JFrame {
-
+    
     private UsuarioDAOImpl usuarioDao;
     private TelefonoDAOImpl telefonoDao;
     private ControladorUsuario controladorU;
-
+    
     private VentanaInicioSesion ventanaInicioSesion;
     private VentanaRegistrarUsuario ventanaRegistrarUsuario;
     private VentanaGestionTelefonos ventanaGestionTelefonos;
     private VentanaBuscarUsuarios ventanaListar;
+    private VentanaGestionUsuario ventanaGestionUsuario;
 
     /**
      * Creates new form VentanaPrincipal
@@ -35,35 +36,37 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         setLocation(450, 200);
         gestiónMenu.setVisible(false);
         cerrarSesionMenuItem.setVisible(false);
-
+        
         telefonoDao = new TelefonoDAOImpl();
         usuarioDao = new UsuarioDAOImpl();
         controladorU = new ControladorUsuario(usuarioDao, telefonoDao);
-
+        
         ventanaInicioSesion = new VentanaInicioSesion(controladorU, this);
         ventanaRegistrarUsuario = new VentanaRegistrarUsuario(controladorU);
         ventanaGestionTelefonos = new VentanaGestionTelefonos(controladorU);
         ventanaListar = new VentanaBuscarUsuarios(controladorU);
-
+        ventanaGestionUsuario = new VentanaGestionUsuario(controladorU);
+        
         desktopPane.add(ventanaInicioSesion);
         desktopPane.add(ventanaRegistrarUsuario);
         desktopPane.add(ventanaGestionTelefonos);
         desktopPane.add(ventanaListar);
-
+        desktopPane.add(ventanaGestionUsuario);
+        
     }
-
+    
     public JMenuItem getCerrarSesionMenuItem() {
         return cerrarSesionMenuItem;
     }
-
+    
     public JMenu getGestiónMenu() {
         return gestiónMenu;
     }
-
+    
     public JMenuItem getIniciarSesionMenuItem() {
         return iniciarSesionMenuItem;
     }
-
+    
     public JMenuItem getRegistrarUsuarioMenuItem() {
         return registrarUsuarioMenuItem;
     }
@@ -82,7 +85,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         fileMenu = new javax.swing.JMenu();
         iniciarSesionMenuItem = new javax.swing.JMenuItem();
         registrarUsuarioMenuItem = new javax.swing.JMenuItem();
-        listarMenuItem = new javax.swing.JMenuItem();
+        buscarUsuarioMenuItem = new javax.swing.JMenuItem();
         cerrarSesionMenuItem = new javax.swing.JMenuItem();
         exitMenuItem = new javax.swing.JMenuItem();
         gestiónMenu = new javax.swing.JMenu();
@@ -92,7 +95,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Inicio");
         setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
-        setSize(new java.awt.Dimension(0, 0));
+        setSize(new java.awt.Dimension(400, 600));
         getContentPane().add(desktopPane, java.awt.BorderLayout.CENTER);
 
         menuBar.setBackground(new java.awt.Color(102, 102, 102));
@@ -122,14 +125,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         });
         fileMenu.add(registrarUsuarioMenuItem);
 
-        listarMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
-        listarMenuItem.setText("BuscarUsuario");
-        listarMenuItem.addActionListener(new java.awt.event.ActionListener() {
+        buscarUsuarioMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
+        buscarUsuarioMenuItem.setText("BuscarUsuario");
+        buscarUsuarioMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                listarMenuItemActionPerformed(evt);
+                buscarUsuarioMenuItemActionPerformed(evt);
             }
         });
-        fileMenu.add(listarMenuItem);
+        fileMenu.add(buscarUsuarioMenuItem);
 
         cerrarSesionMenuItem.setText("Cerrar sesión");
         cerrarSesionMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -163,6 +166,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         gestiónMenu.add(gestionTelefonosMenuItem);
 
         gestionUsuarioMenuItem.setText("Usuario");
+        gestionUsuarioMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gestionUsuarioMenuItemActionPerformed(evt);
+            }
+        });
         gestiónMenu.add(gestionUsuarioMenuItem);
 
         menuBar.add(gestiónMenu);
@@ -179,7 +187,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void iniciarSesionMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iniciarSesionMenuItemActionPerformed
         // TODO add your handling code here:
         cerrarVentanas();
-
+        
         ventanaInicioSesion.setVisible(true);
 
     }//GEN-LAST:event_iniciarSesionMenuItemActionPerformed
@@ -195,10 +203,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         JOptionPane.showMessageDialog(this, "Usted ha cerrado sesión");
         cerrarVentanas();
-
+        
         gestiónMenu.setVisible(false);
         cerrarSesionMenuItem.setVisible(false);
-
+        
         registrarUsuarioMenuItem.setVisible(true);
         iniciarSesionMenuItem.setVisible(true);
     }//GEN-LAST:event_cerrarSesionMenuItemActionPerformed
@@ -211,19 +219,27 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     }//GEN-LAST:event_gestionTelefonosMenuItemActionPerformed
 
-    private void listarMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarMenuItemActionPerformed
+    private void buscarUsuarioMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarUsuarioMenuItemActionPerformed
         // TODO add your handling code here:
 
         cerrarVentanas();
         ventanaListar.setVisible(true);
-    }//GEN-LAST:event_listarMenuItemActionPerformed
+    }//GEN-LAST:event_buscarUsuarioMenuItemActionPerformed
 
+    private void gestionUsuarioMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gestionUsuarioMenuItemActionPerformed
+        // TODO add your handling code here:
+        cerrarVentanas();
+        ventanaGestionUsuario.setVisible(true);
+        
+    }//GEN-LAST:event_gestionUsuarioMenuItemActionPerformed
+    
     public void cerrarVentanas() {
         ventanaGestionTelefonos.setVisible(false);
         ventanaInicioSesion.setVisible(false);
         ventanaListar.setVisible(false);
         ventanaRegistrarUsuario.setVisible(false);
-
+        ventanaGestionUsuario.setVisible(false);
+        
     }
 
     /**
@@ -262,6 +278,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem buscarUsuarioMenuItem;
     private javax.swing.JMenuItem cerrarSesionMenuItem;
     private javax.swing.JDesktopPane desktopPane;
     private javax.swing.JMenuItem exitMenuItem;
@@ -270,7 +287,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem gestionUsuarioMenuItem;
     private javax.swing.JMenu gestiónMenu;
     private javax.swing.JMenuItem iniciarSesionMenuItem;
-    private javax.swing.JMenuItem listarMenuItem;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem registrarUsuarioMenuItem;
     // End of variables declaration//GEN-END:variables
