@@ -44,6 +44,7 @@ public class VentanaInicioSesion extends javax.swing.JInternalFrame {
         txtPassword = new javax.swing.JPasswordField();
         txtCorreo = new javax.swing.JTextField();
 
+        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         setMaximizable(true);
         setResizable(true);
         setTitle("Iniciar Sesión");

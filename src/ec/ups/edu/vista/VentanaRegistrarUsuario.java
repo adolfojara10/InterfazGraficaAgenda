@@ -54,6 +54,7 @@ public class VentanaRegistrarUsuario extends javax.swing.JInternalFrame {
         btnCrearUsuario = new javax.swing.JButton();
         btnAtras = new javax.swing.JButton();
 
+        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         setMaximizable(true);
         setResizable(true);
         setTitle("Registrar Usuario");

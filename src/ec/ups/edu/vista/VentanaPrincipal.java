@@ -25,7 +25,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private VentanaInicioSesion ventanaInicioSesion;
     private VentanaRegistrarUsuario ventanaRegistrarUsuario;
     private VentanaGestionTelefonos ventanaGestionTelefonos;
-    private VentanaListarTelefonos ventanaListar;
+    private VentanaBuscarUsuarios ventanaListar;
 
     /**
      * Creates new form VentanaPrincipal
@@ -43,7 +43,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         ventanaInicioSesion = new VentanaInicioSesion(controladorU, this);
         ventanaRegistrarUsuario = new VentanaRegistrarUsuario(controladorU);
         ventanaGestionTelefonos = new VentanaGestionTelefonos(controladorU);
-        ventanaListar = new VentanaListarTelefonos(controladorU);
+        ventanaListar = new VentanaBuscarUsuarios(controladorU);
+
+        desktopPane.add(ventanaInicioSesion);
+        desktopPane.add(ventanaRegistrarUsuario);
+        desktopPane.add(ventanaGestionTelefonos);
+        desktopPane.add(ventanaListar);
+
     }
 
     public JMenuItem getCerrarSesionMenuItem() {
@@ -117,7 +123,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         fileMenu.add(registrarUsuarioMenuItem);
 
         listarMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
-        listarMenuItem.setText("Listar teléfonos");
+        listarMenuItem.setText("BuscarUsuario");
         listarMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 listarMenuItemActionPerformed(evt);
@@ -172,22 +178,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     private void iniciarSesionMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iniciarSesionMenuItemActionPerformed
         // TODO add your handling code here:
+        cerrarVentanas();
 
-        if (ventanaRegistrarUsuario.isEnabled()) {
-            ventanaRegistrarUsuario.dispose();
-        }
-        desktopPane.add(ventanaInicioSesion);
         ventanaInicioSesion.setVisible(true);
 
     }//GEN-LAST:event_iniciarSesionMenuItemActionPerformed
 
     private void registrarUsuarioMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registrarUsuarioMenuItemActionPerformed
         // TODO add your handling code here:
-
-        if (ventanaInicioSesion.isEnabled()) {
-            ventanaInicioSesion.dispose();
-        }
-        desktopPane.add(ventanaRegistrarUsuario);
+        cerrarVentanas();
         ventanaRegistrarUsuario.setVisible(true);
     }//GEN-LAST:event_registrarUsuarioMenuItemActionPerformed
 
@@ -195,10 +194,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         JOptionPane.showMessageDialog(this, "Usted ha cerrado sesión");
-
-        if (ventanaGestionTelefonos.isEnabled()) {
-            ventanaGestionTelefonos.dispose();
-        }
+        cerrarVentanas();
 
         gestiónMenu.setVisible(false);
         cerrarSesionMenuItem.setVisible(false);
@@ -210,16 +206,25 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void gestionTelefonosMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gestionTelefonosMenuItemActionPerformed
         // TODO add your handling code here:
 
-        desktopPane.add(ventanaGestionTelefonos);
+        cerrarVentanas();
         ventanaGestionTelefonos.setVisible(true);
 
     }//GEN-LAST:event_gestionTelefonosMenuItemActionPerformed
 
     private void listarMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarMenuItemActionPerformed
         // TODO add your handling code here:
-        desktopPane.add(ventanaListar);
-        ventanaListar.setVisible(rootPaneCheckingEnabled);
+
+        cerrarVentanas();
+        ventanaListar.setVisible(true);
     }//GEN-LAST:event_listarMenuItemActionPerformed
+
+    public void cerrarVentanas() {
+        ventanaGestionTelefonos.setVisible(false);
+        ventanaInicioSesion.setVisible(false);
+        ventanaListar.setVisible(false);
+        ventanaRegistrarUsuario.setVisible(false);
+
+    }
 
     /**
      * @param args the command line arguments

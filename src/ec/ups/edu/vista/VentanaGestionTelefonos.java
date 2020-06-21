@@ -120,6 +120,7 @@ public class VentanaGestionTelefonos extends javax.swing.JInternalFrame {
         tblTelefonos = new javax.swing.JTable();
 
         setClosable(true);
+        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         setTitle("Gestión Teléfonos");
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {

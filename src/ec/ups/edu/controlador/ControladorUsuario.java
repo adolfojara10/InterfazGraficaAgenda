@@ -86,12 +86,12 @@ public class ControladorUsuario {
         }
     }
 
-    public boolean buscar(String id) {
+    public Usuario buscar(String id) {
         usuario = usuarioDAO.read(id);
         if (usuario == null) {
-            return false;
+            return null;
         } else {
-            return true;
+            return usuario;
         }
 
     }
@@ -132,6 +132,10 @@ public class ControladorUsuario {
         usuario.eliminarTelefono(telefono);
         telefonoDAO.delete(telefono);
 
+    }
+    
+    public Map<Integer,Telefono> listarTodos(){
+        return telefonoDAO.findAll();
     }
 
     public int codigoTelefono() {
