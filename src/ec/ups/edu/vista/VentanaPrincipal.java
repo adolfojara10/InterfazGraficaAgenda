@@ -8,6 +8,8 @@ package ec.ups.edu.vista;
 import ec.ups.edu.controlador.ControladorUsuario;
 import ec.ups.edu.dao.TelefonoDAOImpl;
 import ec.ups.edu.dao.UsuarioDAOImpl;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -17,16 +19,19 @@ import javax.swing.JOptionPane;
  * @author Adolfo
  */
 public class VentanaPrincipal extends javax.swing.JFrame {
-    
+
     private UsuarioDAOImpl usuarioDao;
     private TelefonoDAOImpl telefonoDao;
     private ControladorUsuario controladorU;
-    
+
     private VentanaInicioSesion ventanaInicioSesion;
     private VentanaRegistrarUsuario ventanaRegistrarUsuario;
     private VentanaGestionTelefonos ventanaGestionTelefonos;
     private VentanaBuscarUsuarios ventanaListar;
     private VentanaGestionUsuario ventanaGestionUsuario;
+
+    private Locale localizacion;
+    private ResourceBundle mensajes;
 
     /**
      * Creates new form VentanaPrincipal
@@ -34,39 +39,66 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     public VentanaPrincipal() {
         initComponents();
         setLocation(450, 200);
-        gestiónMenu.setVisible(false);
+        menuGestion.setVisible(false);
         cerrarSesionMenuItem.setVisible(false);
-        
+
         telefonoDao = new TelefonoDAOImpl();
         usuarioDao = new UsuarioDAOImpl();
         controladorU = new ControladorUsuario(usuarioDao, telefonoDao);
-        
+
         ventanaInicioSesion = new VentanaInicioSesion(controladorU, this);
         ventanaRegistrarUsuario = new VentanaRegistrarUsuario(controladorU);
         ventanaGestionTelefonos = new VentanaGestionTelefonos(controladorU);
         ventanaListar = new VentanaBuscarUsuarios(controladorU);
         ventanaGestionUsuario = new VentanaGestionUsuario(controladorU);
-        
+
         desktopPane.add(ventanaInicioSesion);
         desktopPane.add(ventanaRegistrarUsuario);
         desktopPane.add(ventanaGestionTelefonos);
         desktopPane.add(ventanaListar);
         desktopPane.add(ventanaGestionUsuario);
+
+        localizacion = new Locale("es","EC");
+        mensajes = ResourceBundle.getBundle("ec.ups.edu.idiomas.mensajes", localizacion);
+        cambiarIdiomas();
+    }
+
+    public void cambiarIdiomas() {
+
+        menuInicio.setText(mensajes.getString("menuInicio"));
+        menuGestion.setText(mensajes.getString("menuGestion"));
+        menuIdioma.setText(mensajes.getString("menuIdioma"));
+
+        iniciarSesionMenuItem.setText(mensajes.getString("menuItemIniciarSesion"));
+        registrarUsuarioMenuItem.setText(mensajes.getString("menuItemRegistrarUsuario"));
+        buscarUsuarioMenuItem.setText(mensajes.getString("menuItemBuscarUsuario"));
+        cerrarSesionMenuItem.setText(mensajes.getString("menuItemCerrarSesion"));
+        exitMenuItem.setText(mensajes.getString("menuItemExit"));
+        gestionTelefonosMenuItem.setText(mensajes.getString("menuItemGestionTelefonos"));
+        gestionUsuarioMenuItem.setText(mensajes.getString("menuItemGestionUsuario"));
+        espanolMenuItem.setText(mensajes.getString("menuItemEspanol"));
+        inglesMenuItem.setText(mensajes.getString("menuItemIngles"));
+        
+        ventanaInicioSesion.setTitle(mensajes.getString("menuItemIniciarSesion"));
+        ventanaInicioSesion.getCorreo().setText(mensajes.getString("correo"));
+        ventanaInicioSesion.getPassword().setText(mensajes.getString("password"));
+        ventanaInicioSesion.getBtnInciarSesion().setText(mensajes.getString("menuItemIniciarSesion"));
+        ventanaInicioSesion.getBtnAtras().setText(mensajes.getString("atras"));
         
     }
-    
+
     public JMenuItem getCerrarSesionMenuItem() {
         return cerrarSesionMenuItem;
     }
-    
+
     public JMenu getGestiónMenu() {
-        return gestiónMenu;
+        return menuGestion;
     }
-    
+
     public JMenuItem getIniciarSesionMenuItem() {
         return iniciarSesionMenuItem;
     }
-    
+
     public JMenuItem getRegistrarUsuarioMenuItem() {
         return registrarUsuarioMenuItem;
     }
@@ -82,15 +114,18 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         desktopPane = new javax.swing.JDesktopPane();
         menuBar = new javax.swing.JMenuBar();
-        fileMenu = new javax.swing.JMenu();
+        menuInicio = new javax.swing.JMenu();
         iniciarSesionMenuItem = new javax.swing.JMenuItem();
         registrarUsuarioMenuItem = new javax.swing.JMenuItem();
         buscarUsuarioMenuItem = new javax.swing.JMenuItem();
         cerrarSesionMenuItem = new javax.swing.JMenuItem();
         exitMenuItem = new javax.swing.JMenuItem();
-        gestiónMenu = new javax.swing.JMenu();
+        menuGestion = new javax.swing.JMenu();
         gestionTelefonosMenuItem = new javax.swing.JMenuItem();
         gestionUsuarioMenuItem = new javax.swing.JMenuItem();
+        menuIdioma = new javax.swing.JMenu();
+        espanolMenuItem = new javax.swing.JMenuItem();
+        inglesMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Inicio");
@@ -101,9 +136,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         menuBar.setBackground(new java.awt.Color(102, 102, 102));
         menuBar.setForeground(new java.awt.Color(255, 255, 255));
 
-        fileMenu.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        fileMenu.setMnemonic('f');
-        fileMenu.setText("Menú");
+        menuInicio.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        menuInicio.setMnemonic('f');
+        menuInicio.setText("Menú");
 
         iniciarSesionMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
         iniciarSesionMenuItem.setMnemonic('o');
@@ -113,7 +148,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 iniciarSesionMenuItemActionPerformed(evt);
             }
         });
-        fileMenu.add(iniciarSesionMenuItem);
+        menuInicio.add(iniciarSesionMenuItem);
 
         registrarUsuarioMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.CTRL_MASK));
         registrarUsuarioMenuItem.setMnemonic('a');
@@ -123,7 +158,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 registrarUsuarioMenuItemActionPerformed(evt);
             }
         });
-        fileMenu.add(registrarUsuarioMenuItem);
+        menuInicio.add(registrarUsuarioMenuItem);
 
         buscarUsuarioMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
         buscarUsuarioMenuItem.setText("BuscarUsuario");
@@ -132,7 +167,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 buscarUsuarioMenuItemActionPerformed(evt);
             }
         });
-        fileMenu.add(buscarUsuarioMenuItem);
+        menuInicio.add(buscarUsuarioMenuItem);
 
         cerrarSesionMenuItem.setText("Cerrar sesión");
         cerrarSesionMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -140,7 +175,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 cerrarSesionMenuItemActionPerformed(evt);
             }
         });
-        fileMenu.add(cerrarSesionMenuItem);
+        menuInicio.add(cerrarSesionMenuItem);
 
         exitMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_ESCAPE, 0));
         exitMenuItem.setMnemonic('x');
@@ -150,12 +185,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 exitMenuItemActionPerformed(evt);
             }
         });
-        fileMenu.add(exitMenuItem);
+        menuInicio.add(exitMenuItem);
 
-        menuBar.add(fileMenu);
+        menuBar.add(menuInicio);
 
-        gestiónMenu.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        gestiónMenu.setText("Gestión");
+        menuGestion.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        menuGestion.setText("Gestión");
 
         gestionTelefonosMenuItem.setText("Teléfonos");
         gestionTelefonosMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -163,7 +198,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 gestionTelefonosMenuItemActionPerformed(evt);
             }
         });
-        gestiónMenu.add(gestionTelefonosMenuItem);
+        menuGestion.add(gestionTelefonosMenuItem);
 
         gestionUsuarioMenuItem.setText("Usuario");
         gestionUsuarioMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -171,9 +206,29 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 gestionUsuarioMenuItemActionPerformed(evt);
             }
         });
-        gestiónMenu.add(gestionUsuarioMenuItem);
+        menuGestion.add(gestionUsuarioMenuItem);
 
-        menuBar.add(gestiónMenu);
+        menuBar.add(menuGestion);
+
+        menuIdioma.setText("Idioma");
+
+        espanolMenuItem.setText("Español");
+        espanolMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                espanolMenuItemActionPerformed(evt);
+            }
+        });
+        menuIdioma.add(espanolMenuItem);
+
+        inglesMenuItem.setText("Inglés");
+        inglesMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inglesMenuItemActionPerformed(evt);
+            }
+        });
+        menuIdioma.add(inglesMenuItem);
+
+        menuBar.add(menuIdioma);
 
         setJMenuBar(menuBar);
 
@@ -187,7 +242,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void iniciarSesionMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iniciarSesionMenuItemActionPerformed
         // TODO add your handling code here:
         cerrarVentanas();
-        
+
         ventanaInicioSesion.setVisible(true);
 
     }//GEN-LAST:event_iniciarSesionMenuItemActionPerformed
@@ -203,10 +258,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         JOptionPane.showMessageDialog(this, "Usted ha cerrado sesión");
         cerrarVentanas();
-        
-        gestiónMenu.setVisible(false);
+
+        menuGestion.setVisible(false);
         cerrarSesionMenuItem.setVisible(false);
-        
+
         registrarUsuarioMenuItem.setVisible(true);
         iniciarSesionMenuItem.setVisible(true);
     }//GEN-LAST:event_cerrarSesionMenuItemActionPerformed
@@ -230,16 +285,31 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
         cerrarVentanas();
         ventanaGestionUsuario.setVisible(true);
-        
+
     }//GEN-LAST:event_gestionUsuarioMenuItemActionPerformed
-    
+
+    private void espanolMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_espanolMenuItemActionPerformed
+        // TODO add your handling code here:
+        localizacion = new Locale("es","EC");
+        mensajes = ResourceBundle.getBundle("ec.ups.edu.idiomas.mensajes", localizacion);
+        cambiarIdiomas();
+        
+    }//GEN-LAST:event_espanolMenuItemActionPerformed
+
+    private void inglesMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inglesMenuItemActionPerformed
+        // TODO add your handling code here:
+        localizacion = new Locale("en","UK");
+        mensajes = ResourceBundle.getBundle("ec.ups.edu.idiomas.mensajes", localizacion);
+        cambiarIdiomas();
+    }//GEN-LAST:event_inglesMenuItemActionPerformed
+
     public void cerrarVentanas() {
         ventanaGestionTelefonos.setVisible(false);
         ventanaInicioSesion.setVisible(false);
         ventanaListar.setVisible(false);
         ventanaRegistrarUsuario.setVisible(false);
         ventanaGestionUsuario.setVisible(false);
-        
+
     }
 
     /**
@@ -281,13 +351,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem buscarUsuarioMenuItem;
     private javax.swing.JMenuItem cerrarSesionMenuItem;
     private javax.swing.JDesktopPane desktopPane;
+    private javax.swing.JMenuItem espanolMenuItem;
     private javax.swing.JMenuItem exitMenuItem;
-    private javax.swing.JMenu fileMenu;
     private javax.swing.JMenuItem gestionTelefonosMenuItem;
     private javax.swing.JMenuItem gestionUsuarioMenuItem;
-    private javax.swing.JMenu gestiónMenu;
+    private javax.swing.JMenuItem inglesMenuItem;
     private javax.swing.JMenuItem iniciarSesionMenuItem;
     private javax.swing.JMenuBar menuBar;
+    private javax.swing.JMenu menuGestion;
+    private javax.swing.JMenu menuIdioma;
+    private javax.swing.JMenu menuInicio;
     private javax.swing.JMenuItem registrarUsuarioMenuItem;
     // End of variables declaration//GEN-END:variables
 

@@ -7,6 +7,8 @@ package ec.ups.edu.vista;
 
 import ec.ups.edu.controlador.ControladorUsuario;
 import ec.ups.edu.modelo.Usuario;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 /**
@@ -14,7 +16,7 @@ import javax.swing.JOptionPane;
  * @author Adolfo
  */
 public class VentanaInicioSesion extends javax.swing.JInternalFrame {
-
+    
     private ControladorUsuario controladorU;
     private VentanaPrincipal ventanaPrincipal;
 
@@ -25,8 +27,26 @@ public class VentanaInicioSesion extends javax.swing.JInternalFrame {
         initComponents();
         this.ventanaPrincipal = ventanaPrincipal;
         this.controladorU = controladorU;
-
+        
     }
+
+    public JButton getBtnAtras() {
+        return btnAtras;
+    }
+
+    public JButton getBtnInciarSesion() {
+        return btnInciarSesion;
+    }
+
+    public JLabel getCorreo() {
+        return correo;
+    }
+
+    public JLabel getPassword() {
+        return password;
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -133,34 +153,33 @@ public class VentanaInicioSesion extends javax.swing.JInternalFrame {
         String correo = txtCorreo.getText();
         char[] contra = txtPassword.getPassword();
         String password = String.valueOf(contra);
-
+        
         if (correo.isEmpty() || password.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Llene todos los campos solicitados");
         } else {
             boolean verdad = controladorU.iniciarSesion(correo, password);
-
+            
             if (verdad) {
                 JOptionPane.showMessageDialog(this, "¡Sesion iniciada con exito!");
                 limpiar();
                 this.setVisible(false);
                 activarMenus();
-
+                
             } else {
                 JOptionPane.showMessageDialog(this, "Usuario no encontrado. Intentelo otra vez");
             }
         }
 
     }//GEN-LAST:event_btnInciarSesionActionPerformed
-
     
     public void activarMenus() {
         ventanaPrincipal.getCerrarSesionMenuItem().setVisible(true);
         ventanaPrincipal.getGestiónMenu().setVisible(true);
-
+        
         ventanaPrincipal.getRegistrarUsuarioMenuItem().setVisible(false);
         ventanaPrincipal.getIniciarSesionMenuItem().setVisible(false);
     }
-
+    
     public void limpiar() {
         txtCorreo.setText("");
         txtPassword.setText("");
